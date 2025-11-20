@@ -1,20 +1,29 @@
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import BabyBox from './babyBox/BabyBox';
-import BabyArticle from './babyArticle/BabyArticle';
-import BabyButton from './babyButton/BabyButton';
+import React, { useState } from "react";
+import BabyBox from "./babyBox/BabyBox";
+import BabyArticle from "./babyArticle/BabyArticle";
+import BabyButton from "./babyButton/BabyButton";
+import styles from "./BabyIndex.module.css";
 
+const BabyIndex = () => {
+  return (
+    <div className={styles.container}>
+      {/* 왼쪽: 아기 정보 + 네비바 */}
+      <div className={styles.leftSection}>
+        <div className={styles.babyBoxWrapper}>
+          <BabyBox />
+        </div>
+        {/* 네비바 */}
+        <div className={styles.babyButtonWrapper}>
+          <BabyButton />
+        </div>
+      </div>
 
-//로그인 하면 디폴트 페이지 "/"랑 라우팅 되어있음
-const BabyIndex = ()=>{
-
-return(
-    <div>
-        <BabyBox />
+      {/* 오른쪽: 아기 관련 기사 */}
+      <div className={styles.rightSection}>
         <BabyArticle />
-        <BabyButton />
+      </div>
     </div>
-);
+  );
+};
 
-
-}
 export default BabyIndex;
