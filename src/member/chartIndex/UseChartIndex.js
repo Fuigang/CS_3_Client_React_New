@@ -2,6 +2,7 @@ import { useMemo, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { caxios } from "../../config/config";
 import { FETAL_STANDARDS } from "./FetalStandardData"; 
+import { calculateFetalWeek, calculateInfantWeek } from "../utils/pregnancyUtils";
 //  MOCK_...으로 시작하는 모든 변수 정의는 제거되었습니다.
 
 
@@ -15,7 +16,7 @@ export const useChartIndex = () => {
     const [activeMenu, setActiveMenu] = useState(0);
 
     const menuList = [
-        "성장", "몸무게", "머리직경", "머리둘레", "복부둘레", "허벅지 길이",
+        "전체", "몸무게", "머리직경", "머리둘레", "복부둘레", "허벅지 길이",
     ];
     
     //  참고: DUMMY_BABY_SEQ는 인증 구현 전까지 API 호출의 시작점이므로 유지합니다.
@@ -27,17 +28,24 @@ export const useChartIndex = () => {
         const fetchInitialState = async () => {
             try {
                 // Baby 정보 조회
-                const babyResponse = await caxios.get(`/api/baby/${DUMMY_BABY_SEQ}`);
+                const babyResponse = await caxios.get(`/baby/${DUMMY_BABY_SEQ}`);
                 const { status, birthDate, baby_seq } = babyResponse.data;
 
-                // 주차 계산 API 호출
-                const weekResponse = await caxios.get('/chart/week', {
-                    params: { status: status, birthDate: birthDate }
-                });
+               // 서버 API 호출 대신, 클라이언트 유틸리티를 사용해 주차 계산
+            const todayStr = new Date().toISOString().split('T')[0]; // 오늘 날짜 'YYYY-MM-DD'
+            let calculatedWeek;
+
+            if ("fetal".equalsIgnoreCase(status)) {
+                 // 태아 주차 계산
+                 calculatedWeek = calculateFetalWeek(birthDate, todayStr);
+            } else {
+                 // 영유아 주차 계산
+                 calculatedWeek = calculateInfantWeek(birthDate, todayStr);
+            }
                 
                 // 상태 업데이트
                 setBabyInfo({ babySeq: baby_seq, status, birthDate });
-                setCurrentWeek(weekResponse.data.week); 
+                setCurrentWeek(calculatedWeek); 
 
             } catch (error) {
                 console.error("초기 데이터 로딩 오류:", error);
