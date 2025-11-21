@@ -1,7 +1,7 @@
 import styles from "./BabyButton.module.css";
 
 // isPrengant : 현재 사용자가 임산부 상태인지
-const BabyButton = ({ isPregnant = true }) => {
+const BabyButton = ({ isPregnant}) => {
   // 버튼 항목 데이터
   const baseItems = [
     {
