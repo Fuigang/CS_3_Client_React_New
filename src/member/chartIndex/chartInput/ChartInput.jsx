@@ -21,7 +21,7 @@ const ChartInput = ({ menuList, activeMenu }) => {
         {/* 날짜 입력: 공통 필드 */}
         <label className={styles.label}>날짜</label>
         <input className={styles.input} type="date" placeholder="날짜" />
- 
+
         {/*'전체' 메뉴 선택 시: 모든 항목 입력 필드 렌더링 */}
         {activeItem === "전체" && (
           <div className={styles.allInputGroup}>
