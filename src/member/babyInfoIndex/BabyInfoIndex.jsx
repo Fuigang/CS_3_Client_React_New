@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
-import BabyInfoPic from './babyInfoPic/BabyInfoPic';
-import BabyInfo from './babyInfo/BabyInfo';
+import BabyInfoPic from "./babyInfoPic/BabyInfoPic";
+import BabyInfo from "./babyInfo/BabyInfo";
 import styles from "./BabyInfoIndex.module.css";
 
 const BabyInfoIndex = () => {
@@ -9,8 +9,12 @@ const BabyInfoIndex = () => {
 
   return (
     <div className={styles.container}>
-      <BabyInfoPic type={type} />
-      <BabyInfo />
+      <div className={styles.left}>
+        <BabyInfoPic type={type} />
+      </div>
+      <div className={styles.right}>
+        <BabyInfo />
+      </div>
     </div>
   );
 };

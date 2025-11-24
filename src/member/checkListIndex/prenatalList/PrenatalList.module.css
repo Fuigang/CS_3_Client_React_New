@@ -36,7 +36,7 @@
 /* sectionsWrapper: 섹션 목록 컨테이너 */
 .sectionsWrapper {
   position: relative;
-  top: 26px;
+  top: 0px;
   left: 0px;
   width: 100%;
   display: flex;
@@ -75,7 +75,7 @@
   gap: 5px;
 }
 
-/* defaultSection: 비활성 섹션 (흰색 배경/회색 테두리) */
+/* defaultSection: 비활성 섹션 - 필요할 경우 사용예정 */
 .defaultSection {
   align-self: stretch;
   width: 100%;
@@ -206,6 +206,11 @@
   box-sizing: border-box;
   flex-shrink: 0;
   cursor: pointer;
+}
+
+.checkPending:hover {
+  background-color: #fff;
+  border: 6px solid#adb9e3;
 }
 
 /* checkDone: 완료 체크 버튼 */

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 import styles from "./PrenatalList.module.css";
 
 // -----------------------------------------------------
@@ -54,7 +55,12 @@ const CheckItem = ({ check, onToggle }) => {
     : styles.checkPending;
 
   return (
-    <div className={styles.checkItem}>
+    <motion.div
+      className={styles.checkItem}
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.4 }}
+    >
       <div className={styles.checkRow}>
         <button
           className={checkCircleClass}
@@ -65,7 +71,7 @@ const CheckItem = ({ check, onToggle }) => {
           <div className={styles.checkDate}>{check.date}</div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
@@ -79,7 +85,12 @@ const WeekSection = ({ data, onToggle, isSpecialWeek }) => {
     : styles.defaultDotLine;
 
   return (
-    <div className={styles.section}>
+    <motion.div
+      className={styles.section}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.9 }}
+    >
       <div className={styles.sectionInner}>
         <div className={containerClass}>
           <div className={`${styles.leftLine} ${lineDotClass}`} />
@@ -97,7 +108,7 @@ const WeekSection = ({ data, onToggle, isSpecialWeek }) => {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
