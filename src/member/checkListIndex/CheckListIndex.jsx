@@ -8,16 +8,21 @@ const CheckListIndex = () => {
     <div className={styles.CheckContanier}>
       {/* Left 영역 (검진 리스트) */}
       <div className={styles.left}>
-        {/* <h2 className={styles.title}>주차별 산전 검진</h2> */}
-        <PrenatalList />
+        <h2 className={styles.title}>주차별 산전 검진</h2>
+        <div className={styles.listWrapper}>
+          <PrenatalList />
+        </div>
       </div>
 
       {/* Right 영역 (증상 리스트) */}
       <div className={styles.rigth}>
         <h2 className={styles.title}>증상 및 주의사항</h2>
-        <SymptomList />
+        <div className={styles.listWrapper}>
+          <SymptomList />
+        </div>
       </div>
     </div>
   );
 };
+
 export default CheckListIndex;

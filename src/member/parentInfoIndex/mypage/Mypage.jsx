@@ -1,14 +1,27 @@
 import { useState } from "react";
 import styles from "./Mypage.module.css";
-import useMypage from "./useMypage"; // 첫 글자 대문자로
+import useMypage from "./UseMypage"; // 첫 글자 대문자로
+import { motion } from "framer-motion";
+
 const Mypage = () => {
   const [isEditing, setIsEditing] = useState(false);
   const {
-    data, regexAuth, inputCount,
-    hendleChange, chackClick, emailAuthClick, handleComplete
+    data,
+    regexAuth,
+    inputCount,
+    hendleChange,
+    chackClick,
+    emailAuthClick,
+    handleComplete,
   } = useMypage(isEditing, setIsEditing);
   return (
-    <div className={styles.container}>
+    <motion.div
+      className={styles.container}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.4 }}
+    >
       <div className={styles.parentpage}>
         <div className={styles.info}>
           <h1 className={styles.title}>회원정보</h1>
@@ -29,12 +42,16 @@ const Mypage = () => {
                     value={data.nickname}
                     onChange={hendleChange}
                     className={`${styles.editableInputHalf}
-                     ${!regexAuth.nickname || !regexAuth.nickNameChack && !regexAuth.nickNameChack && inputCount.nickname > 0 ? styles.auth : ""}`}
+                     ${
+                       !regexAuth.nickname ||
+                       (!regexAuth.nickNameChack &&
+                         !regexAuth.nickNameChack &&
+                         inputCount.nickname > 0)
+                         ? styles.auth
+                         : ""
+                     }`}
                   />
-                  <button
-                    className={styles.checkButton}
-                    onClick={chackClick}
-                  >
+                  <button className={styles.checkButton} onClick={chackClick}>
                     중복확인
                   </button>
                 </div>
@@ -56,7 +73,11 @@ const Mypage = () => {
                       onChange={hendleChange}
                       value={data.email}
                       className={`${styles.editableInputHalf}
-                     ${!regexAuth.email && inputCount.email > 0 ? styles.auth : ""}`}
+                     ${
+                       !regexAuth.email && inputCount.email > 0
+                         ? styles.auth
+                         : ""
+                     }`}
                     />
                     <button
                       className={styles.duplicationButton}
@@ -71,7 +92,11 @@ const Mypage = () => {
                     name="emailAuth"
                     onChange={hendleChange}
                     className={`${styles.verificationInput}
-                     ${!regexAuth.emailAuth && inputCount.emailAuth > 0 ? styles.auth : ""}`}
+                     ${
+                       !regexAuth.emailAuth && inputCount.emailAuth > 0
+                         ? styles.auth
+                         : ""
+                     }`}
                   />
                 </>
               ) : (
@@ -87,7 +112,9 @@ const Mypage = () => {
             <div className={styles.phone}>
               <label htmlFor="phone">연락처</label>
               <div className={styles.phoneWrapper}>
-                <span className={isEditing ? styles.prefixActive : styles.prefix}>
+                <span
+                  className={isEditing ? styles.prefixActive : styles.prefix}
+                >
                   010
                 </span>
                 <span className={styles.dash}>-</span>
@@ -101,7 +128,11 @@ const Mypage = () => {
                       onChange={hendleChange}
                       maxLength={4}
                       className={`${styles.editableInputHalf}
-                     ${!regexAuth.phone1 && inputCount.phone1 > 0 ? styles.auth : ""}`}
+                     ${
+                       !regexAuth.phone1 && inputCount.phone1 > 0
+                         ? styles.auth
+                         : ""
+                     }`}
                     />
                     <span className={styles.dash}>-</span>
                     <input
@@ -112,7 +143,11 @@ const Mypage = () => {
                       maxLength={4}
                       value={data.phone2}
                       className={`${styles.editableInputHalf}
-                     ${!regexAuth.phone2 && inputCount.phone2 > 0 ? styles.auth : ""}`}
+                     ${
+                       !regexAuth.phone2 && inputCount.phone2 > 0
+                         ? styles.auth
+                         : ""
+                     }`}
                     />
                   </>
                 ) : (
@@ -153,10 +188,7 @@ const Mypage = () => {
               >
                 취소
               </button>
-              <button
-                className={styles.success}
-                onClick={handleComplete}
-              >
+              <button className={styles.success} onClick={handleComplete}>
                 완료
               </button>
             </>
@@ -167,7 +199,7 @@ const Mypage = () => {
           )}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

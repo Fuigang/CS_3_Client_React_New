@@ -1,43 +1,43 @@
 .rightcontainer {
-    width:50%;
-    height:100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* border:1px solid black; */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border:1px solid black; */
 }
 
 .babyinformation {
-    width:80%;
-    height:80%;
-    /* border:1px solid black; */
+  width: 80%;
+  height: 80%;
+  /* border:1px solid black; */
 }
 
 .bb {
-    width:100%;
-    height:65px;
-    display: flex;
-    align-items: center;
+  width: 100%;
+  height: 65px;
+  display: flex;
+  align-items: center;
 }
 
 .bb h1 {
-    font-size: 22px;
-    color:#696B70;
+  font-size: 22px;
+  color: #696b70;
 }
 /*----------------------------------------------------*/
 /*아기 정보 이름 부분*/
 .babyla {
-    width:100%;
-    height:auto;
-    display: flex;
-    flex-direction: column;
-    margin-top: 16px;
-    /* border:1px solid black; */
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  margin-top: 16px;
+  /* border:1px solid black; */
 }
 .babyla label {
-    font-size: 18px;
-    color:#696B70;
-    margin-left: 10px;
+  font-size: 18px;
+  color: #696b70;
+  margin-left: 10px;
 }
 
 .babyla input {
@@ -46,29 +46,29 @@
 }
 
 .babyname {
-    height:48px;
-    border-radius: 20px;
-    border:1px solid #696B70;
-    outline: none;
+  height: 48px;
+  border-radius: 20px;
+  border: 1px solid #696b70;
+  outline: none;
 }
 
 .babyname::placeholder {
-    font-size: 16px;
+  font-size: 16px;
 }
 /*----------------------------------------------------*/
 /*아기 정보 출생일 부분*/
 .birthday {
-    width:100%;
-    height:auto;
-    display: flex;
-    flex-direction: column;
-    margin-top: 16px;
-    /* border:1px solid black; */
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  margin-top: 16px;
+  /* border:1px solid black; */
 }
 .birthday label {
-    font-size: 18px;
-    color:#696B70;
-    margin-left: 10px;
+  font-size: 18px;
+  color: #696b70;
+  margin-left: 10px;
 }
 
 .birthday input {
@@ -77,161 +77,159 @@
 }
 
 .babybirthday {
-    height:48px;
-    border-radius: 20px;
-    border:1px solid #696B70;
-    /* border:1px solid #696B70; */
-    outline: none;
+  height: 48px;
+  border-radius: 20px;
+  border: 1px solid #696b70;
+  /* border:1px solid #696B70; */
+  outline: none;
 }
 
 .babybirthday::placeholder {
-    font-size: 16px;
+  font-size: 16px;
 }
 /*----------------------------------------------------*/
 /*아기 정보 성별 부분*/
 
 .sextitle {
-    font-size: 18px;
-    color:#696B70;
-    text-indent: 10px;
-    margin-top: 16px;
-    /* border:1px solid black; */
+  font-size: 18px;
+  color: #696b70;
+  text-indent: 10px;
+  margin-top: 16px;
+  /* border:1px solid black; */
 }
 
 .btns {
-    margin-top: 16px;
-    display: flex;     
-    gap: 13%; 
-    /* border:1px solid black; */
+  margin-top: 16px;
+  display: flex;
+  gap: 13%;
+  /* border:1px solid black; */
 }
 
 .btns button {
-    width:188px;
-    height:48px;
-    border-radius: 20px;
+  width: 188px;
+  height: 48px;
+  border-radius: 20px;
 }
 
 .quest {
-    border:1px solid #8C8C8C;
-    /* background-color: #ADB9E3; */
-    background-color: white;
-    font-size: 18px;
-    font-weight: bold;
-    color:#8C8C8C;
-    cursor: pointer;
+  border: 1px solid #8c8c8c;
+  /* background-color: #ADB9E3; */
+  background-color: white;
+  font-size: 18px;
+  font-weight: bold;
+  color: #8c8c8c;
+  cursor: pointer;
 }
 
 .manb {
-    background-color: white;
-    border:1px solid #8C8C8C;
-    font-weight: bold;
-    font-size: 18px;
-    color:#8C8C8C;
-    cursor: pointer;
+  background-color: white;
+  border: 1px solid #8c8c8c;
+  font-weight: bold;
+  font-size: 18px;
+  color: #8c8c8c;
+  cursor: pointer;
 }
 
 .girlb {
-    background-color: white;
-    border:1px solid #8C8C8C;
-    font-size: 18px;
-    font-weight: bold;
-    color:#8C8C8C;
-    cursor: pointer;
+  background-color: white;
+  border: 1px solid #8c8c8c;
+  font-size: 18px;
+  font-weight: bold;
+  color: #8c8c8c;
+  cursor: pointer;
 }
 
 .active {
-    background-color: #ADB9E3; /* 선택된 버튼 색상 */
-    border:none;
+  background-color: #adb9e3; /* 선택된 버튼 색상 */
+  border: none;
 }
 
 /*----------------------------------------------------*/
 /*아기 몸무게 부분*/
 
 .kg {
-    margin-top: 16px;
-    /* border:1px solid black; */
+  margin-top: 16px;
+  /* border:1px solid black; */
 }
 
 .kg p {
-    font-size: 18px;
-    color:#696B70;
-    margin-left: 10px;
+  font-size: 18px;
+  color: #696b70;
+  margin-left: 10px;
 }
 
 .kgdb {
-    margin-top: 16px;
-    font-size: 18px;
-    color:#696B70;
-    text-indent: 10px;
-    /* border:1px solid black; */
+  margin-top: 16px;
+  font-size: 18px;
+  color: #696b70;
+  text-indent: 10px;
+  /* border:1px solid black; */
 }
 
 /*----------------------------------------------------*/
 /*수정버튼 부분*/
 
 .correct {
-    width: 100%;
-    height: 25%;
-    /* border: 1px solid black; */
-    display: flex;
-    /* js */
-    align-items: flex-end;     /* 아래쪽 정렬 */
-    /* padding: 10px;             버튼 주변 여백 */
+  width: 100%;
+  height: 25%;
+  /* border: 1px solid black; */
+  display: flex;
+  /* js */
+  align-items: flex-end; /* 아래쪽 정렬 */
+  /* padding: 10px;             버튼 주변 여백 */
 }
 
 .corbt {
-    width:200px;
-    height:48px;
-    border-radius: 20px;
-    border:none;
-    background-color:#B9B9B9;
-    color:white;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
+  width: 200px;
+  height: 48px;
+  border-radius: 20px;
+  border: none;
+  background-color: #b9b9b9;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .corbt:hover {
-    background-color: #F0D827;
+  background-color: #f0d827;
 }
 
 .corbtd {
-    width:200px;
-    height:48px;
-    border-radius: 20px;
-    border:none;
-    background-color:#B9B9B9;
-    color:white;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
+  width: 200px;
+  height: 48px;
+  border-radius: 20px;
+  border: none;
+  background-color: #b9b9b9;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .corbtd:hover {
-    background-color: #F0D827;
+  background-color: #f0d827;
 }
 
 .corbtc {
-    width:200px;
-    height:48px;
-    border-radius: 20px;
-    border:none;
-    background-color:#B9B9B9;
-    color:white;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
+  width: 200px;
+  height: 48px;
+  border-radius: 20px;
+  border: none;
+  background-color: #b9b9b9;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .corbtc:hover {
-    background-color: #F0D827;
+  background-color: #f0d827;
 }
 
 /*---------------------------------------------------------*/
 /**/
 
-.auth{
-    border: solid 1px #499ef8 !important;    
+.auth {
+  border: solid 1px #499ef8 !important;
 }
-
-
