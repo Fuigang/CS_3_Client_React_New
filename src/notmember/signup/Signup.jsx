@@ -86,18 +86,18 @@ function Signup() {
                     </div>
 
                     <div className={styles.newnic}>
-                        <label htmlFor="nickName">닉네임</label>
+                        <label htmlFor="nickname">닉네임</label>
                         <div className={styles.inputButtonWrapper}>
                             <input
-                                id="nickName"
+                                id="nickname"
                                 type="text"
                                 placeholder="닉네임"
-                                name="nickName"
-                                value={data.nickName}
-                                className={`${styles.inputError} ${!regexAuth.nickName && inputCount.nickName > 0 ? styles.borderRegex : ""}`}
+                                name="nickname"
+                                value={data.nickname}
+                                className={`${styles.inputError} ${!regexAuth.nickname && inputCount.nickname > 0 ? styles.borderRegex : ""}`}
                                 onChange={hendleChange}
                             />
-                            <button className={styles.nicauth} name="nickNameChack"
+                            <button className={styles.nicauth} name="nicknameChack"
                                 onClick={chackClick}>
                                 중복확인</button>
                         </div>

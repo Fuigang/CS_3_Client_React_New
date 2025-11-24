@@ -1,21 +1,21 @@
 import { useState } from "react";
 import styles from "./Mypage.module.css";
-import useMypage from "./UseMypage"; // 첫 글자 대문자로
+import useMypage from "./useMypage"; // 첫 글자 대문자로
 const Mypage = () => {
-  const [isEditing, setIsEditing] = useState(false); // 수정 상태변수
-
-  const { data } = useMypage();
-
+  const [isEditing, setIsEditing] = useState(false);
+  const {
+    data, regexAuth, inputCount,
+    hendleChange, chackClick, emailAuthClick, handleComplete
+  } = useMypage(isEditing, setIsEditing);
   return (
     <div className={styles.container}>
       <div className={styles.parentpage}>
-        {/* 회원정보 + 가족코드 통합 */}
         <div className={styles.info}>
           <h1 className={styles.title}>회원정보</h1>
           <div className={styles.main}>
             {/* 아이디 */}
             <p className={styles.id}>아이디</p>
-            <div className={styles.dbid}>DB에서 가져올 ID값</div>
+            <div className={styles.dbid}>{data.user_id}</div>
 
             {/* 닉네임 */}
             <div className={styles.nick}>
@@ -25,18 +25,21 @@ const Mypage = () => {
                   <input
                     type="text"
                     id="nic"
-                    placeholder="맘마미아"
-                    className={styles.editableInputHalf}
+                    name="nickname"
+                    value={data.nickname}
+                    onChange={hendleChange}
+                    className={`${styles.editableInputHalf}
+                     ${!regexAuth.nickname || !regexAuth.nickNameChack && !regexAuth.nickNameChack && inputCount.nickname > 0 ? styles.auth : ""}`}
                   />
                   <button
                     className={styles.checkButton}
-                    onClick={() => alert("닉네임 저장 로직")}
+                    onClick={chackClick}
                   >
                     중복확인
                   </button>
                 </div>
               ) : (
-                <div className={styles.dbValue}>맘마미아</div>
+                <div className={styles.dbValue}>{data.nickname}</div>
               )}
             </div>
 
@@ -49,12 +52,15 @@ const Mypage = () => {
                     <input
                       type="email"
                       id="email"
-                      placeholder="mosque@gmail.com"
-                      className={styles.emailtableInputHalf}
+                      name="email"
+                      onChange={hendleChange}
+                      value={data.email}
+                      className={`${styles.editableInputHalf}
+                     ${!regexAuth.email && inputCount.email > 0 ? styles.auth : ""}`}
                     />
                     <button
                       className={styles.duplicationButton}
-                      onClick={() => alert("이메일 인증 요청")}
+                      onClick={emailAuthClick}
                     >
                       이메일 인증
                     </button>
@@ -62,25 +68,26 @@ const Mypage = () => {
                   <input
                     type="text"
                     placeholder="인증 코드 입력"
-                    className={styles.verificationInput}
+                    name="emailAuth"
+                    onChange={hendleChange}
+                    className={`${styles.verificationInput}
+                     ${!regexAuth.emailAuth && inputCount.emailAuth > 0 ? styles.auth : ""}`}
                   />
                 </>
               ) : (
-                <div className={styles.dbValue}>mosque@gmail.com</div>
+                <div className={styles.dbValue}>{data.email}</div>
               )}
             </div>
 
             {/* 생일 */}
             <p className={styles.birthday}>생일</p>
-            <div className={styles.dbbirth}>♥ DB에서 가져올 생일 ♥</div>
+            <div className={styles.dbbirth}>{data.birth_date}</div>
 
             {/* 전화번호 */}
             <div className={styles.phone}>
               <label htmlFor="phone">연락처</label>
               <div className={styles.phoneWrapper}>
-                <span
-                  className={isEditing ? styles.prefixActive : styles.prefix}
-                >
+                <span className={isEditing ? styles.prefixActive : styles.prefix}>
                   010
                 </span>
                 <span className={styles.dash}>-</span>
@@ -89,15 +96,23 @@ const Mypage = () => {
                     <input
                       id="phone1"
                       type="tel"
-                      placeholder="연락처"
-                      className={styles.editableInput}
+                      value={data.phone1}
+                      name="phone1"
+                      onChange={hendleChange}
+                      maxLength={4}
+                      className={`${styles.editableInputHalf}
+                     ${!regexAuth.phone1 && inputCount.phone1 > 0 ? styles.auth : ""}`}
                     />
                     <span className={styles.dash}>-</span>
                     <input
                       id="phone2"
                       type="tel"
-                      placeholder="연락처"
-                      className={styles.editableInput}
+                      name="phone2"
+                      onChange={hendleChange}
+                      maxLength={4}
+                      value={data.phone2}
+                      className={`${styles.editableInputHalf}
+                     ${!regexAuth.phone2 && inputCount.phone2 > 0 ? styles.auth : ""}`}
                     />
                   </>
                 ) : (
@@ -106,14 +121,14 @@ const Mypage = () => {
                       className={styles.dbValue}
                       style={{ height: "48px", lineHeight: "48px" }}
                     >
-                      1234
+                      {data.phone1}
                     </div>
                     <span className={styles.dash}>-</span>
                     <div
                       className={styles.dbValue}
                       style={{ height: "48px", lineHeight: "48px" }}
                     >
-                      5678
+                      {data.phone2}
                     </div>
                   </>
                 )}
@@ -123,7 +138,7 @@ const Mypage = () => {
             {/* 가족 코드 */}
             <div className={styles.fabt}>
               <p className={styles.familycode}>가족코드</p>
-              <div className={styles.familywhy}>뭐가 오겠지 뭐</div>
+              <div className={styles.familywhy}>{data.family_code}</div>
             </div>
           </div>
         </div>
@@ -140,7 +155,7 @@ const Mypage = () => {
               </button>
               <button
                 className={styles.success}
-                onClick={() => setIsEditing(false)}
+                onClick={handleComplete}
               >
                 완료
               </button>

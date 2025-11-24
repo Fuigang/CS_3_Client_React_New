@@ -5,7 +5,7 @@ function useSignup(navigate) {
 
     // 값 받을 준비
     const [data, setData] = useState({
-        email: "", emailAuth: "", id: "", nickName: "", pw: "", phone1: "", phone2: "",
+        email: "", emailAuth: "", id: "", nickname: "", pw: "", phone1: "", phone2: "",
         parentType: "", birthDate: "", code: ""
     });
     // 이메일 인증 서버 코드
@@ -15,13 +15,13 @@ function useSignup(navigate) {
 
     // 유효성 및 빈 문자열 확인 상태함수
     const [regexAuth, setRegexAuth] = useState({
-        email: false, emailAuth: false, id: false, idChack: false, nickName: false, nickNameChack: false, pw: false,
+        email: false, emailAuth: false, id: false, idChack: false, nickname: false, nicknameChack: false, pw: false,
         phone1: false, phone2: false, parentType: false, birthDate: false, code: false
     });
 
     // css 카운트... 흑흑
     const [inputCount, setInputCount] = useState({
-        email: 0, emailAuth: 0, id: 0, nickName: 0, pw: 0,
+        email: 0, emailAuth: 0, id: 0, nickname: 0, pw: 0,
         phone1: 0, phone2: 0, birthDate: 0, code: 0
     });
 
@@ -37,7 +37,7 @@ function useSignup(navigate) {
     const regexMap = {
         id: /^[a-z0-9]{5,}$/, // 소문자+숫자 최소 5글자 이상
         email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, // e-mail 정규식(영서띠가보내줌)
-        nickName: /^[가-힣0-9]{2,6}$/, // 닉네임 한글 2~6글자
+        nickname: /^[가-힣0-9]{2,6}$/, // 닉네임 한글 2~6글자
         pw: /^[a-zA-Z0-9!@#$%^&*()]{6,}$/, // 대소문자,숫자,특수문자 최소 6글자 이상
         phone1: /^\d{4}$/, // 전화번호 4자씩 끊어서 검사할거라 4만함
         phone2: /^\d{4}$/, // 전화번호 4자씩 끊어서 검사할거라 4만함
@@ -59,7 +59,7 @@ function useSignup(navigate) {
         const regex = regexMap[name];
 
         if (name === "id") { setRegexAuth(prev => ({ ...prev, idChack: false })) }
-        if (name === "nickName") { setRegexAuth(prev => ({ ...prev, nickNameChack: false })) }
+        if (name === "nickname") { setRegexAuth(prev => ({ ...prev, nicknameChack: false })) }
 
         const isValid = regex ? regex.test(trimmedValue) : false;
         let finalIsValid = isValid;
@@ -87,7 +87,7 @@ function useSignup(navigate) {
             .catch(err => console.log(err));
     }
 
-    // id, nickName 중복검사 클릭
+    // id, nickname 중복검사 클릭
     const chackClick = (e) => {
         const type = e.target.name;
         const name = type === "idChack" ? "아이디" : "닉네임";
@@ -133,7 +133,7 @@ function useSignup(navigate) {
             email: data.email,
             password: data.pw,
             contact: contact,
-            nickname: data.nickName,
+            nickname: data.nickname,
             parent_role: data.parentType,
             birth_date: data.birthDate,
             family_code: data.code

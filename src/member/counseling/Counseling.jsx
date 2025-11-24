@@ -8,6 +8,22 @@ const Counseling = ({ onClose }) => {
   const [inputText, setInputText] = useState(""); // 입력창 상태
   const [messages, setMessages] = useState([]); // 채팅 메시지 배열 상태
 
+  // ⭐ 컴포넌트가 처음 렌더링될 때 챗봇이 먼저 인사 메시지 전송
+  useEffect(() => {
+    const now = new Date();
+    const formatTime = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+    setMessages([
+      {
+        text: "긴급 챗봇입니다. 무엇을 도와드릴까요?",
+        sender: "other",
+        time: formatTime,
+        senderName: "챗봇",
+        buttons: ["test1", "test2", "test3"]
+      }
+    ]);
+  }, []);
+
   // 메시지 전송 함수
   const sendMessage = () => {
     if (inputText.trim() === "") return; // 입력이 비어있으면 전송 X
@@ -20,14 +36,14 @@ const Counseling = ({ onClose }) => {
       ...prev,
       { text: inputText, sender: "me", time: formatTime, senderName: "나" },
       {
-        text: "아구몬 : 파충류형 디지몬 세대는 성장기이며 속성은 백신/데이터이다. 주요 능력은 입에서 작은 불덩어리를 뿜는 필살기 '베이비 플레임'이 있다. 크고 둥근 녹색 눈과 주황색 피부가 특징이며, 그레이몬 계열의 시초가 되는 디지몬이자 많은 시리즈에서 주인공의 파트너 디지몬으로 등장한다.",
+        text: "긴급 챗봇입니다. 무엇을 도와드릴까요?",
         sender: "other",
         time: formatTime,
         senderName: "챗봇",
         buttons: [
-          "그레이몬 : 공룡형 디지몬 세대는 성숙기이며 속성은 백신/데이터 이다. 주요 능력은 강력한 완력과 단단한 두개골을 이용한 박치기, 입에서 뿜는 고열의 화염 필살기 '메가플레임'이 있다. 머리 부분에 투구 모양의 딱딱한 껍질이 있으며, 공격적인 성향을 지니고 있다. 아구몬의 진화체이다.",
-          "메탈그레이몬 : 사이보그형 디지몬 세대는 완전체이며 속성은 백신/데이터/바이러스 이다. 주요 능력은 단단한 크롬디지조이드 합금 몸체와 거대한 발톱, 가슴의 해치에서 발사하는 두 개의 유도 미사일 '기가 디스트로이어'가 있다. 온 몸이 기계화되어 있으며, 그레이몬 계열의 완전체 형태이다.",
-          "워그레이몬 : 드래곤맨형 디지몬 세대는 궁극체이며 속성은 백신이다. 주요 능력은 양팔에 장착된 최강 경도(硬度)의 '드라몬 킬러'와 등껍질로 합쳐지는 방패 '브레이브 실드', 그리고 방대한 에너지를 구체로 모아 발사하는 필살기 '가이아 포스'가 있다. 용사의 모습을 한 형태이며, 메탈그레이몬의 진화체이자 아구몬 계열의 최종 진화형 중 하나이다."
+          "test1",
+          "test2",
+          "test3"
         ]
       }
     ]);
@@ -91,14 +107,14 @@ const Counseling = ({ onClose }) => {
                         flexWrap: "wrap"
                       }}
                     >
-                      {/* 시간: 내가 보낸 메시지 왼쪽, 챗봇 오른쪽 */}
+                      {/* 시간: 내가 보낸 메시지 왼쪽 */}
                       {isMe && <span style={{ fontSize: "12px", color: "#888" }}>{msg.time}</span>}
 
                       {/* 말풍선 */}
                       <div
                         style={{
                           maxWidth: "70%",
-                          backgroundColor: isMe ? "#FFF4D6" : "#D6F0FF", // 내가 보낸 메시지: 노랑, 챗봇: 파랑
+                          backgroundColor: isMe ? "#FFF4D6" : "#D6F0FF",
                           padding: "10px 14px",
                           borderRadius: "15px",
                           fontSize: "14px",
@@ -138,7 +154,7 @@ const Counseling = ({ onClose }) => {
                         )}
                       </div>
 
-                      {/* 챗봇 메시지 시간 */}
+                      {/* 챗봇 메시지 시간 (오른쪽) */}
                       {!isMe && <span style={{ fontSize: "12px", color: "#888" }}>{msg.time}</span>}
                     </div>
                   </div>
