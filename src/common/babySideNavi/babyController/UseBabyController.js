@@ -15,7 +15,7 @@ function useBabyController() {
             setData(resp.data);
         })
         .catch(err=>console.log(err))
-    },[babySeq, id, data])
+    },[babySeq, id])
 
     // 몇째인지 띄우는...네..
     function getKoreanOrder(num) {

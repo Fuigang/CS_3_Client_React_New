@@ -50,7 +50,7 @@ const MainIndex = () => {
       {/*컨테이너 영역*/}
       {/*헤더 영역 : 필요시 로그인 여부 데이터 넘겨서 display none 사용하세요*/}
       <header className={styles.MemberHeader}>
-        <CommonHeader />
+        <CommonHeader isLogin={isLogin} />
       </header>
       {/*바디 영역 : 필요시 로그인 여부 데이터 넘겨서 display none 사용하세요*/}
       <div className={mainLayoutClassName}>

@@ -1,62 +1,88 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import styles from "./CommonHeader.module.css";
 import { HelpCircle, Menu } from "lucide-react";
 import log from "./imgs/log.svg";
-import BabySideNavi from "../babySideNavi/BabySideNavi"; // 사이드바 컴포넌트 임포트
+import BabySideNavi from "../babySideNavi/BabySideNavi";
 
-const CommonHeader = () => {
-  // 사이드바 표시 상태 관리: 기본값은 닫힘
+const CommonHeader = ({ isLogin }) => {
   const [isNavOpen, setIsNavOpen] = useState(false);
+  const location = useLocation();
 
-  // 사이드바 토글 함수
-  const toggleSideNav = () => {
-    setIsNavOpen(!isNavOpen);
-  };
+  const toggleSideNav = () => setIsNavOpen(!isNavOpen);
+  const closeSideNav = () => setIsNavOpen(false);
 
-  // BabySideNavi 내부에서 닫기 버튼/오버레이 클릭 시 호출될 함수
-  const closeSideNav = () => {
-    setIsNavOpen(false);
-  };
+  const isPathActive = (path) => location.pathname === path;
 
   return (
     <div>
       {isNavOpen && <BabySideNavi onClose={closeSideNav} />}
+
       <div className={styles.topbar}>
         <div className={styles.headerContentWrapper}>
-          {/* Left Section (로고 및 메뉴) */}
+          {/* Left Section */}
           <div className={styles.leftSection}>
-            {/* 로고 (홈 링크) */}
             <Link to="/">
               <img src={log} className={styles.logoIcon} alt="로고 이미지" />
             </Link>
 
             <div className={styles.menuItems}>
-              {/* 활성 메뉴 예시 */}
-              <div className={styles.menuActive}>
-                <b className={styles.menuItem}>커뮤니티</b>
+              {/* 커뮤니티 메뉴 (항상 보임) */}
+              <div
+                className={`${styles.menuItemBox} ${
+                  isPathActive("/board") ? styles.menuActive : ""
+                }`}
+              >
+                <Link to="/board" className={styles.menuItem}>
+                  커뮤니티
+                </Link>
               </div>
-              {/* 비활성 메뉴 예시 */}
-              <div className={styles.menuItemBox}>
-                <span className={styles.menuItem}>마이페이지</span>
-              </div>
+
+              {/* 로그인한 경우만 마이페이지 표시 */}
+              {isLogin && (
+                <div
+                  className={`${styles.menuItemBox} ${
+                    isPathActive("/mypage") ? styles.menuActive : ""
+                  }`}
+                >
+                  <Link to="/mypage" className={styles.menuItem}>
+                    마이페이지
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
 
+          {/* Right Section */}
           <div className={styles.rightSection}>
-            {/* 도움말 아이콘 */}
-            <button className={styles.iconButton}>
-              <HelpCircle className={styles.helpIcon} />
-            </button>
+            {/* 로그인한 경우만 아이콘 표시 */}
+            {isLogin && (
+              <>
+                <button className={styles.iconButton}>
+                  <HelpCircle className={styles.helpIcon} />
+                </button>
+                <button onClick={toggleSideNav} className={styles.iconButton}>
+                  <Menu className={styles.menuIcon} />
+                </button>
+              </>
+            )}
 
-            {/* 메뉴 아이콘 (사이드바 토글 버튼) */}
-            <button onClick={toggleSideNav} className={styles.iconButton}>
-              <Menu className={styles.menuIcon} />
-            </button>
+            {/* 로그인 안했을 때만 로그인/회원가입 버튼 표시 */}
+            {!isLogin && (
+              <div className={styles.authButtons}>
+                <Link to="/signup" className={styles.signUpBtn}>
+                  회원가입
+                </Link>
+                <Link to="/login" className={styles.loginBtn}>
+                  로그인
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>
     </div>
   );
 };
+
 export default CommonHeader;

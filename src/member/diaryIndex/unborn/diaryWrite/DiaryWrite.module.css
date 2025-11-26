@@ -1,0 +1,127 @@
+.container {
+  width: 100%;
+  height: 100%;
+  /* background-color: #fff4d6; */
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  font-family: "Pretendard", sans-serif;
+  color: #333;
+}
+
+/* 제목 입력 */
+.formGroup {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.formLabel {
+  font-size: 18px;
+  font-weight: bold;
+  color: #555;
+  min-width: 80px;
+}
+
+.inputField {
+  flex: 1;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+  transition: 0.2s;
+}
+.inputField:focus-within {
+  border-color: #f0d827;
+  box-shadow: 0 0 5px rgba(240, 216, 39, 0.4);
+}
+
+.inputElement {
+  width: 100%;
+  border: none;
+  background: none;
+  outline: none;
+  font-size: 17px;
+}
+
+/* 에디터 영역 */
+.editorArea {
+  flex-grow: 1;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  min-height: 300px;
+  overflow: hidden;
+}
+
+.editorHeader {
+  height: 54px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fcfcfc;
+  border-bottom: 1px solid #eee;
+}
+
+.editorLabel {
+  font-size: 16px;
+  font-weight: 600;
+  color: #777;
+}
+
+.editorInput {
+  flex-grow: 1;
+  padding: 20px;
+  border: none;
+  outline: none;
+  resize: none;
+  font-size: 16px;
+  line-height: 1.8;
+  background: none;
+  overflow-y: auto;
+}
+
+.editorInput::placeholder {
+  color: #bbb;
+}
+
+/* 버튼 영역 */
+.actionFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+.backButton,
+.completeButton {
+  width: 130px;
+  height: 48px;
+  border-radius: 24px;
+  border: none;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.backButton {
+  background: #ccc;
+  color: #444;
+}
+.backButton:hover {
+  background: #bbb;
+}
+
+.completeButton {
+  background-color: #f0d827;
+  color: #333;
+}
+.completeButton:hover {
+  background-color: #e0c817;
+  box-shadow: 0 6px 10px rgba(240, 216, 39, 0.5);
+}

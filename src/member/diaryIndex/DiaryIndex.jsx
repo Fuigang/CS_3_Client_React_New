@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import UnBornDiaryIndex from './unborn/unbornIndex/UnbornIndex';
 import BornDiaryIndex from './born/bornDiaryIndex/BornDiaryIndex';
+import styles from "./DiaryIndex.module.css";
 
 
 
@@ -13,7 +14,7 @@ const DiaryIndex = ()=>{
 
 return(
 
-    <div>
+    <div className={styles.container}>
         {/*아기 태어났으면 산모수첩 : 아니면 하루일기*/}
         {isBorn ? ( <UnBornDiaryIndex/> ) : ( <BornDiaryIndex />)}
     </div>

@@ -109,3 +109,18 @@
   border-radius: 20px;
   object-fit: cover;
 }
+
+/* 혜빈 추가 */
+.loadingMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  gap: 2px;
+  width: 100%;
+  pointer-events: none; /* 클릭 방지 */
+}
+.loadingMessage.show {
+  opacity: 1;
+  transform: translateY(0);
+}

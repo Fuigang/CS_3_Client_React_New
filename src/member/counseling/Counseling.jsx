@@ -1,81 +1,92 @@
 import React, { useState, useRef, useEffect } from "react";
 import styles from "./Counseling.module.css"; // CSS 모듈 import
 import pointImg from "./img/point.png"; // 전송 버튼 이미지 import
+import useCounseling from "./useCounseling";
+import { caxios } from "../../config/config";
 
 // Counseling 컴포넌트: 긴급 상담 채팅창
 const Counseling = ({ onClose }) => {
-  const messageEndRef = useRef(null); // 채팅 스크롤을 마지막 메시지로 이동시키기 위한 ref
+  const messageEndRef = useRef(null); // 메시지 + 로딩 포함 스크롤 참조
   const [inputText, setInputText] = useState(""); // 입력창 상태
   const [messages, setMessages] = useState([]); // 채팅 메시지 배열 상태
+  const [inputDisabled, setInputDisabled] = useState(true); // 인풋 AI상담 누를시에만 작성가능
+  const [isLoading, setIsLoading] = useState(false);  // 로딩 상황
 
-  // ⭐ 컴포넌트가 처음 렌더링될 때 챗봇이 먼저 인사 메시지 전송
+  const { selectBtn } = useCounseling(setInputText, setMessages, setInputDisabled);
+
+  const now = new Date();
+  const formatTime = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+  // 컴포넌트가 처음 렌더링될 때 챗봇이 먼저 인사 메시지 전송
   useEffect(() => {
-    const now = new Date();
-    const formatTime = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-
     setMessages([
       {
         text: "긴급 챗봇입니다. 무엇을 도와드릴까요?",
         sender: "other",
         time: formatTime,
         senderName: "챗봇",
-        buttons: ["test1", "test2", "test3"]
+        buttons: ["test1", "test2", "test3", "AI 상담"]
       }
     ]);
   }, []);
 
   // 메시지 전송 함수
   const sendMessage = () => {
-    if (inputText.trim() === "") return; // 입력이 비어있으면 전송 X
+    if (inputText.trim() === "" || isLoading) return;
 
-    const now = new Date(); // 현재 시간
-    const formatTime = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }); // HH:MM 형식
-
-    // 메시지 배열에 추가: 사용자가 보낸 메시지 + 챗봇 응답 메시지
     setMessages(prev => [
       ...prev,
-      { text: inputText, sender: "me", time: formatTime, senderName: "나" },
-      {
-        text: "긴급 챗봇입니다. 무엇을 도와드릴까요?",
-        sender: "other",
-        time: formatTime,
-        senderName: "챗봇",
-        buttons: [
-          "test1",
-          "test2",
-          "test3"
-        ]
-      }
+      { text: inputText, sender: "me", time: formatTime, senderName: "나" }
     ]);
+
+    // 로딩 메시지 잠깐 늦게 켜기
+    setTimeout(() => {
+      setIsLoading(true);
+    }, 500);
+
+    caxios.post("/chatBoot/aiAnswer", { question: inputText })
+      .then(resp => {
+        const aiAnswer = resp.data;
+        setMessages(prev => [
+          ...prev,
+          { text: aiAnswer, sender: "other", time: formatTime, senderName: "챗봇" }
+        ]);
+      })
+      .catch(err => {
+        console.log(err);
+        setMessages(prev => [
+          ...prev,
+          { text: "응답을 가져오는 데 실패했습니다. 다시 시도해 주세요.", sender: "system", time: formatTime, senderName: "시스템" }
+        ]);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
 
     setInputText(""); // 입력창 초기화
   };
 
-  // 메시지가 추가될 때마다 스크롤을 마지막 메시지로 이동
+  // 메시지 + 로딩 메시지가 바뀔 때 스크롤 자동 이동
   useEffect(() => {
     if (messageEndRef.current) {
-      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+      messageEndRef.current.scrollTop = messageEndRef.current.scrollHeight;
     }
-  }, [messages]);
+  }, [messages, isLoading]);
 
   return (
     <div className={styles.container}>
-      {/* 왼쪽 배경 클릭 시 채팅창 닫기 */}
       <div className={styles.left} onClick={onClose}></div>
-
       <div className={styles.right}>
-        {/* 채팅창 상단 */}
         <div className={styles.up}>
           <div className={styles.oneonenine}>긴급 상담</div>
         </div>
 
-        {/* 채팅창 하단: 메시지 표시 영역 + 입력 영역 */}
         <div className={styles.down}>
           {/* 메시지 표시 영역 */}
-          <div className={styles.chatbody}>
+          <div className={styles.chatbody} ref={messageEndRef}>
             <div className={styles.mes}>
               {messages.map((msg, idx) => {
-                const isMe = msg.sender === "me"; // 내가 보낸 메시지인지 확인
+                const isMe = msg.sender === "me";
 
                 return (
                   <div
@@ -89,14 +100,12 @@ const Counseling = ({ onClose }) => {
                       width: "100%"
                     }}
                   >
-                    {/* 발신자 이름 */}
                     {msg.senderName && (
                       <span style={{ fontSize: "16px", fontWeight: "bold", color: "#808080" }}>
                         {msg.senderName}
                       </span>
                     )}
 
-                    {/* 시간과 말풍선 */}
                     <div
                       style={{
                         display: "flex",
@@ -107,10 +116,8 @@ const Counseling = ({ onClose }) => {
                         flexWrap: "wrap"
                       }}
                     >
-                      {/* 시간: 내가 보낸 메시지 왼쪽 */}
                       {isMe && <span style={{ fontSize: "12px", color: "#888" }}>{msg.time}</span>}
 
-                      {/* 말풍선 */}
                       <div
                         style={{
                           maxWidth: "70%",
@@ -129,12 +136,12 @@ const Counseling = ({ onClose }) => {
                       >
                         <span>{msg.text}</span>
 
-                        {/* 챗봇 버튼 */}
                         {!isMe && msg.buttons && (
                           <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
                             {msg.buttons.map((btnText, i) => (
                               <button
                                 key={i}
+                                onClick={selectBtn}
                                 style={{
                                   padding: "5px 10px",
                                   borderRadius: "5px",
@@ -154,13 +161,33 @@ const Counseling = ({ onClose }) => {
                         )}
                       </div>
 
-                      {/* 챗봇 메시지 시간 (오른쪽) */}
                       {!isMe && <span style={{ fontSize: "12px", color: "#888" }}>{msg.time}</span>}
                     </div>
                   </div>
                 );
               })}
-              <div ref={messageEndRef}></div> {/* 마지막 메시지 ref */}
+
+              {/* 로딩 메시지 */}
+              {isLoading && (
+                <div className={styles.loadingMessage}>
+                  <span style={{ fontSize: "16px", fontWeight: "bold", color: "#808080" }}>
+                    챗봇
+                  </span>
+                  <div
+                    style={{
+                      maxWidth: "70%",
+                      backgroundColor: "#D6F0FF",
+                      padding: "10px 14px",
+                      borderRadius: "15px",
+                      fontSize: "14px",
+                      color: "#333",
+                      fontStyle: "italic"
+                    }}
+                  >
+                    <span>답변 대기 중입니다...</span>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
@@ -172,12 +199,13 @@ const Counseling = ({ onClose }) => {
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 placeholder="메시지를 입력하세요"
+                disabled={inputDisabled}
                 onKeyDown={(e) => {
-                  if (e.key === "Enter") sendMessage(); // Enter 입력 시 전송
+                  if (e.key === "Enter") sendMessage();
                 }}
               />
               <button className={styles.send} onClick={sendMessage}>
-                <img src={pointImg} alt="send" /> {/* 전송 버튼 이미지 */}
+                <img src={pointImg} alt="send" />
               </button>
             </div>
           </div>

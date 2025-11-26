@@ -1,0 +1,138 @@
+/* --- 데이터 없음 화면 --- */
+.emptyStateContainer {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  text-align: center;
+  font-size: 18px;
+  color: #696b70;
+  font-family: Pretendard, sans-serif;
+}
+
+.emptyStateMessage {
+  position: relative;
+  font-weight: 500;
+  font-size: 24px;
+  color: #a0a0a0;
+}
+
+.writeLink {
+  text-decoration: none;
+  padding: 12px 25px;
+  border-radius: 25px;
+  background-color: #f0d827;
+  color: #696b70;
+  font-weight: bold;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.writeLink:hover {
+  background-color: #e0c820;
+  transform: scale(0.92);
+}
+
+/* --- 상세 화면 컨테이너 --- */
+.detailContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  color: #696b70;
+  font-family: "Pretendard", sans-serif;
+  box-sizing: border-box;
+  background-color: #ffffff;
+}
+
+/* 제목/작성자 */
+.header {
+  width: 100%;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 20px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0;
+  color: #696b70;
+}
+
+.writer {
+  font-size: 15px;
+  color: #888;
+  margin-top: 8px;
+  display: block;
+}
+
+/* 내용 박스 */
+.contentBox {
+  width: 100%;
+  flex-grow: 1;
+  border-radius: 15px;
+  line-height: 1.8;
+  font-size: 16px;
+  color: #696b70;
+  overflow-y: auto;
+}
+
+.contentBox p {
+  margin-bottom: 1em;
+}
+
+.contentBox ul {
+  list-style: disc;
+  margin-left: 20px;
+  margin-bottom: 1em;
+}
+
+.contentBox li {
+  margin-bottom: 0.5em;
+}
+
+/* 수정/삭제 버튼 */
+.actionButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.editButton,
+.deleteButton {
+  height: 48px;
+  width: 200px;
+  padding: 12px 24px;
+  border-radius: 25px;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.editButton {
+  background: #f0d827;
+  color: white;
+}
+
+.editButton:hover {
+  background: #e0c820;
+  transform: scale(0.92);
+}
+
+.deleteButton {
+  background: #adb9e3;
+  color: white;
+}
+
+.deleteButton:hover {
+  background: #adb9e3;
+  transform: scale(0.92);
+}
