@@ -5,7 +5,8 @@ export const FILE_SERVER = "http://10.10.55.103";//파일서버 주소
 
 
 export const caxios = axios.create({
-  baseURL: `http://10.10.55.103/`
+  baseURL: `http:///10.10.55.103/`
+
 });
 
 //모든 일반 api 호출
