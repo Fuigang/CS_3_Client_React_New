@@ -90,11 +90,12 @@
   flex-direction: column;
   background-color: #fff;
   border: none;
+
+  padding: 20px 0;
 }
 /* 세로 모드 내 버튼 정렬 스타일 */
 .verticalList .navButton {
   width: 100%;
   height: 48px;
   justify-content: flex-start;
-  padding-left: 20px;
 }

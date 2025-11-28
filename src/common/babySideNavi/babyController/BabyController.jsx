@@ -14,7 +14,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import InputBaby from "../../../member/inputBaby/InputBaby";
 import useBabyController from "./useBabyController";
 
-const BabyController = () => {
+const BabyController = ({ isSidebar }) => {
   const [showModal, setShowModal] = useState(false); // 아기 추가 모달
   const [showInputBaby, setShowInputBaby] = useState(false); // InputBaby 모달
   const [babyType, setBabyType] = useState(""); // "mom" or "child"
@@ -29,9 +29,11 @@ const BabyController = () => {
   const { data, babySeq, getKoreanOrder, changeBaby } = useBabyController();
 
   return (
-    <div className={styles.rightcontainer}>
-      <div className={styles.margin}></div>
-
+    <div
+      className={`${styles.rightcontainer} ${
+        isSidebar ? styles.sidebarContainer : ""
+      }`}
+    >
       <div className={styles.full}>
         <div className={styles.one}>
           <div className={styles.babyclick}>
@@ -54,17 +56,19 @@ const BabyController = () => {
               </button>
             ))}
 
-            <button
-              className={styles.plusbb}
-              onClick={() => setShowModal(true)}
-            >
-              <img
-                src={yellowImg}
-                alt="yellow"
-                className={styles.yellowImage}
-              />
-              <span>아기추가</span>
-            </button>
+            {!isSidebar && (
+              <button
+                className={styles.plusbb}
+                onClick={() => setShowModal(true)}
+              >
+                <img
+                  src={yellowImg}
+                  alt="yellow"
+                  className={styles.yellowImage}
+                />
+                <span>아기추가</span>
+              </button>
+            )}
           </div>
         </div>
       </div>
