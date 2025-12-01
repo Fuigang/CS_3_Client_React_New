@@ -13,7 +13,7 @@ import { UseBoardDetail } from "./UseBoardDetail";
 import { EditorContent } from "@tiptap/react";
 import CommentItem from "./comment/Comment";
 import { FILE_SERVER } from "config/config";
-
+import BoardOver from "../boardOver/BoardOver";
 
 
 // --- 메인 컴포넌트 ---
@@ -50,8 +50,8 @@ const BoardDetail = ({ handleDeleteBoard, handleEditBoard }) => {
     setEditCommentId
   } = UseBoardDetail({ handleDeleteBoard, handleEditBoard });
 
-
   const [reportOpen, setReportOpen] = useState(false);
+
 
 
 
@@ -106,7 +106,7 @@ const BoardDetail = ({ handleDeleteBoard, handleEditBoard }) => {
                         className={styles.menuItem}
                         onClick={(e) => {
     handlePostMenuItemClick(e, "신고", targetBoard.board_seq);
-    setReportOpen(true);  // 🔥 신고창 열기
+    setReportOpen(true);
 }}
                       >
                         신고
@@ -216,27 +216,10 @@ const BoardDetail = ({ handleDeleteBoard, handleEditBoard }) => {
 
       </div>
 
-      {reportOpen && (
-  <div className={styles.reportOverlay} onClick={()=>setReportOpen(false)}>
-    <div className={styles.reportBox} onClick={(e)=>e.stopPropagation()}>
-      
-      {/* 🔥 신고 사유 4개 선택 */}
-      <div className={styles.reportOptions}>
-        <label><input type="radio" name="reason" /> 욕설 및 부적절한 표현</label>
-        <label><input type="radio" name="reason" /> 광고성 게시물</label>
-        <label><input type="radio" name="reason" /> 태교와 관련 없는 글</label>
-        <label><input type="radio" name="reason" /> 불법 복제 · 저작권 침해 글</label>
-      </div>
-
-      {/* 버튼 영역 */}
-      <div className={styles.reportBtnArea}>
-        <button className={styles.reportCancelBtn} onClick={()=>setReportOpen(false)}>취소</button>
-        <button className={styles.reportSubmitBtn}>신고 완료</button>
-      </div>
-
-    </div>
-  </div>
-)}
+      <BoardOver
+  isOpen={reportOpen}
+  onClose={() => setReportOpen(false)}
+/>
     </div >
 
     
