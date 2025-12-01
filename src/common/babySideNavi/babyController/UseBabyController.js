@@ -29,17 +29,12 @@ function useBabyController() {
     }
 
     // 애기 선택시 페이지 이동
-    const changeBaby = (seq) => {
+    const changeBaby = (seq, date) => {
         caxios.post("/user/changeBaby", { last_baby: babySeq })
             .then(resp => {
                 getbabySeq(seq);
                 navigate("/babymypage");
-            })
-            .then(resp => {
-                caxios.get(`/baby/date?seq=${seq}`)
-                    .then(resp => {
-                        setBabyDueDate(resp.data);
-                    })
+                setBabyDueDate(date);
             })
             .catch(err => console.log(err));
     }

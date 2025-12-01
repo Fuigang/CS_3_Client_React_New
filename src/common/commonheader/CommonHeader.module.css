@@ -12,6 +12,8 @@
   font-size: 16px;
   color: #696b70;
   font-family: "Noto Sans KR", sans-serif;
+
+  z-index: 9999; /* 드롭다운이 포함된 컨텍스트를 가장 위로 */
 }
 
 /* 콘텐츠 래퍼 */
@@ -86,7 +88,8 @@
 .menuItemBox::after {
   content: "";
   position: absolute;
-  bottom: 0; /* 밑줄 위치 */
+  bottom: 0;
+  /* 밑줄 위치 */
   left: 0;
   width: 0%;
   height: 3px;
@@ -155,11 +158,13 @@
   z-index: 1001;
 }
 
-/* 알림 드롭다운 스타일 */
 .bellDropdown {
-  position: absolute;
-  top: 100%;
-  right: 0;
+  position: fixed;
+  /* absolute → fixed */
+  top: 70px;
+  /* 헤더 바로 아래 레이어 */
+  right: 118px;
+  /* 너희 header padding 기준 */
   margin-top: 10px;
   width: 320px;
   background-color: #fff;
@@ -167,12 +172,16 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   border: 1px solid #eee;
   padding: 10px 0;
+
   z-index: 1000;
   color: #333;
   font-size: 14px;
+
+  max-height: 300px;
+  overflow-y: auto;
 }
 
-/* 드롭다운 헤더 (제목) */
+/* 드롭다운 헤더 */
 .dropdownHeader {
   padding: 8px 15px;
   font-size: 16px;
@@ -210,29 +219,6 @@
   line-height: 1.4;
 }
 
-.alertTime {
-  display: block;
-  font-size: 12px;
-  color: #999;
-  margin-top: 2px;
-}
-
-/* 모든 알림 보기 링크 */
-.viewAll {
-  padding: 8px 15px 0;
-  text-align: center;
-}
-
-.viewAll a {
-  color: #adb9e3;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.viewAll a:hover {
-  text-decoration: underline;
-}
-
 /* ==============================
    로그인 & 회원가입 버튼
    ============================== */
@@ -267,7 +253,8 @@
 .signUpBtn:hover {
   background-color: #adb9e3;
   font-weight: bold;
-  transform: scale(0.98); /* 0.92 대신 0.98로 변경하여 자연스러운 축소 효과 */
+  transform: scale(0.98);
+  /* 0.92 대신 0.98로 변경하여 자연스러운 축소 효과 */
 }
 
 .loginBtn {
@@ -277,5 +264,6 @@
 
 .loginBtn:hover {
   background-color: #f0d827;
-  transform: scale(0.98); /* 0.92 대신 0.98로 변경하여 자연스러운 축소 효과 */
+  transform: scale(0.98);
+  /* 0.92 대신 0.98로 변경하여 자연스러운 축소 효과 */
 }

@@ -8,6 +8,16 @@ import BabySideNavi from "../babySideNavi/BabySideNavi";
 const CommonHeader = ({ isLogin }) => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isBellOpen, setIsBellOpen] = useState(false); // 알림 드롭다운 상태 추가
+
+  //알람 드롭 다운 확인용
+  const dummyAlerts = [
+    { id: 1, content: "새로운 댓글이 달렸어요." },
+    { id: 2, content: "새로운 아기가 등록되었어요." },
+    { id: 3, content: "커뮤니티 인기글이 업데이트되었어요." },
+    { id: 4, content: "몸무게 기록이 업데이트되었어요." },
+    { id: 5, content: "몸무게 기록이 업데이트되었어요." },
+  ];
+
   const location = useLocation();
 
   const toggleSideNav = () => {
@@ -83,27 +93,12 @@ const CommonHeader = ({ isLogin }) => {
                         알림
                         <span className={styles.newAlert}>New</span>
                       </div>
-                      <div className={styles.alertItem}>
-                        <p className={styles.alertContent}>
-                          새로운 댓글이 달렸어요.
-                        </p>
-                        <span className={styles.alertTime}>1분 전</span>
-                      </div>
-                      <div className={styles.alertItem}>
-                        <p className={styles.alertContent}>
-                          새로운 아기가 등록되었어요.
-                        </p>
-                        <span className={styles.alertTime}>1시간 전</span>
-                      </div>
-                      <div className={styles.alertItem}>
-                        <p className={styles.alertContent}>
-                          커뮤니티 인기글이 업데이트되었어요.
-                        </p>
-                        <span className={styles.alertTime}>어제</span>
-                      </div>
-                      <div className={styles.viewAll}>
-                        <Link to="/notifications">모든 알림 보기</Link>
-                      </div>
+
+                      {dummyAlerts.map((alert) => (
+                        <div key={alert.id} className={styles.alertItem}>
+                          <p className={styles.alertContent}>{alert.content}</p>
+                        </div>
+                      ))}
                     </div>
                   )}
                 </div>

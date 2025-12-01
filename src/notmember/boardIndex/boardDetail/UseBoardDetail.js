@@ -13,6 +13,7 @@ import TaskList from "@tiptap/extension-task-list"
 import TaskItem from "@tiptap/extension-task-item"
 import Blockquote from "@tiptap/extension-blockquote"
 import CodeBlock from "@tiptap/extension-code-block"
+import { sendMessage } from "common/webSocket/connectWebSocket";
 
 //json 파싱용
 export const extensions = [
@@ -134,7 +135,16 @@ export function UseBoardDetail({ initialComments, handleDeleteBoard, handleEditB
                     board_seq: Number(seq),
                     parent_comment_seq: parentCommentId,
                     comment_content: commentContent
-                });
+                })
+                    .then(resp => {
+                        sendMessage("/app/notify", { 
+                            type: "NEW_COMMENT",
+                            board_seq: Number(seq),
+                            parent_comment_seq: parentCommentId,
+                            comment_content: commentContent
+                        });
+                    });
+
                 alert("댓글이 등록되었습니다.");
             }
 
