@@ -10,23 +10,28 @@ import Loading from "common/loading/Loading";
 
 import useAuthStore from "../../store/useStore";
 import { useChartIndex } from "./UseChartIndex";
-import { fetalWeekStartEnd, infantWeekStartEnd } from "../utils/pregnancyUtils";
+import { fetalWeekStartEnd, infantMonthStartEnd, } from "../utils/pregnancyUtils";
 import { INFANT_STANDARDS } from "./InfantStandardData";
 const ChartIndex = () => {
   const [inputs, setInputs] = useState({});
   const [actualData, setActualData] = useState({}); // 실제 입력 데이터 (API 응답)
   const [currentWeek, setCurrentWeek] = useState(0); // 현재 주차 상태
   const [activeMenu, setActiveMenu] = useState(0); // 활성 메뉴 인덱스
-  const [isFetalMode, setIsFetalMode] = useState(true); // true: 임산모/태아, false: 육아
-
-
-  const measureTypes = { // const [inputs, setInputs] = useState({});
+  const { babyDueDate } = useAuthStore((state) => state);
+  const today = new Date().toISOString().split("T")[0];
+  const isFetalMode = babyDueDate > today;
+  const measureTypes = isFetalMode ? {
     EFW: inputs["몸무게"],
     OFD: inputs["머리직경"],
     HC: inputs["머리둘레"],
     AC: inputs["복부둘레"],
     FL: inputs["허벅지 길이"],
-  };
+  }
+    : {
+      BW: inputs["몸무게"],
+      HT: inputs["신장"],
+      HC: inputs["머리둘레"],
+    };
 
   const fetalMenuList = [
     "성장",
@@ -46,10 +51,18 @@ const ChartIndex = () => {
   const currentStandardData = useMemo(() => {
     // 임산모 모드일 때만 FETAL_STANDARDS를 사용하고, 육아 모드일 때는 다른 표준을 사용하거나 (추가 로직 필요) undefined를 반환할 수 있습니다.
     // 여기서는 기존 로직대로 임산모 모드의 데이터만 유지합니다.
+    if (currentWeek <= 0) return null;
+    console.log("신생아 데이터", FETAL_STANDARDS[currentWeek]);
+    console.log("영유아 데이터", INFANT_STANDARDS[Math.floor(currentWeek / 4)]);
+    console.log("currentWeek", currentWeek);
+    console.log("currentMonth", Math.floor(currentWeek / 4));
+    console.log("isFetalMode : ", isFetalMode);
     if (isFetalMode) {
+
       return FETAL_STANDARDS[currentWeek];
     }
-    return INFANT_STANDARDS[currentWeek / 4]; // 육아 모드일 때는 태아 표준 데이터 는 사용하지 않음
+    return INFANT_STANDARDS[Math.floor(currentWeek / 4)];
+
   }, [currentWeek, isFetalMode]); // isFetalMode가 바뀔 때 useMemo 재계산
 
   console.log("메뉴 : " + activeMenu);
@@ -66,22 +79,19 @@ const ChartIndex = () => {
 
 
   const fetchActualData = async () => {
-    if (!isFetalMode) {
-      setActualData({}); // 육아 모드는 빈 객체
-      return;
-    }
 
     setActualData(null); // 로딩 시작
+
 
     try {
       const { babySeq, status, birthDate } = babyInfo;
       const week = currentWeek;
-
+      const month = Math.floor(currentWeek / 4);
       let startDate, endDate;
       if (status.toLowerCase() === "fetus") {
         [startDate, endDate] = fetalWeekStartEnd(birthDate, week);
       } else {
-        [startDate, endDate] = infantWeekStartEnd(birthDate, week);
+        [startDate, endDate] = infantMonthStartEnd(birthDate, month);
       }
 
       const response = await caxios.get(`/chart/total`, {
@@ -107,13 +117,19 @@ const ChartIndex = () => {
   useEffect(() => {
     if (actualData && Object.keys(actualData).length > 0) {
       // actualData의 key를 inputs key로 매핑
-      const mappedInputs = {
+      const mappedInputs = isFetalMode ? {
         "몸무게": actualData.EFW ?? "",
         "머리직경": actualData.OFD ?? "",
         "머리둘레": actualData.HC ?? "",
         "복부둘레": actualData.AC ?? "",
         "허벅지 길이": actualData.FL ?? "",
-      };
+      } :
+        {
+          "몸무게": actualData.BW ?? "",
+          "신장": actualData.HT ?? "",
+          "머리둘레": actualData.HC ?? "",
+        };
+
       setInputs(mappedInputs);
       console.log(" inputs 세팅 완료:", mappedInputs);
     }
@@ -121,9 +137,8 @@ const ChartIndex = () => {
 
 
   // 로딩 상태 처리
-  // 임산모 모드에서만 standardData의 유효성을 검사
-  const isLoading =
-    actualData === null || (isFetalMode && !currentStandardData);
+
+  const isLoading = actualData === null || currentStandardData === undefined;
 
   if (currentWeek === 0 || isLoading) {
     return <Loading message="데이터를 준비하고 있습니다" />;
@@ -159,14 +174,13 @@ const ChartIndex = () => {
                 // activeMenu 값에 따라 TotalChart와 DetailChart 중 하나만 렌더링
                 activeMenu === 0 ? (
                   <TotalChart
-                    menuList={currentMenuList} // 수정된 리스트 전달
-                    activeMenu={activeMenu}
                     currentWeek={currentWeek}
                     standardData={currentStandardData}
                     actualData={actualData}
                     setActualData={setActualData}
                     isFetalMode={isFetalMode} // 모드 전달
                     inputs={inputs}
+
                   />
                 ) : (
                   // activeMenu가 1 이상일 때 DetailChart가 렌더
@@ -175,10 +189,8 @@ const ChartIndex = () => {
                     activeMenu={activeMenu}
                     currentWeek={currentWeek}
                     standardData={currentStandardData}
-                    actualData={actualData}
-                    setActualData={setActualData}
                     isFetalMode={isFetalMode} // 모드 전달
-                    babyInfo={babyInfo}
+                  //babyInfo={babyInfo}
 
                   />
                 )

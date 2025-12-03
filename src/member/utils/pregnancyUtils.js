@@ -118,33 +118,53 @@ export const fetalWeekStartEnd = (dueDateStr, week) => {
 
 
 
-export const infantWeekStartEnd = (birthDateStr, week) => {
-    const birthDate = parseDate(birthDateStr);
+// export const infantWeekStartEnd = (birthDateStr, week) => {
+//     const birthDate = parseDate(birthDateStr);
+//     console.log("제발 들어와주세요 영유아님..ㅠㅠㅠㅠ")
+//     // 1. 유효성 검사 (태아 로직과 동일)
+//     if (isNaN(birthDate.getTime())) {
+//         console.error("Invalid Birth Date provided:", birthDateStr);
+//         return [null, null];
+//     }
 
-    // 1. 유효성 검사 (태아 로직과 동일)
-    if (isNaN(birthDate.getTime())) {
-        console.error("Invalid Birth Date provided:", birthDateStr);
+//     // 생후 0주차 시작일은 birthDate입니다.
+//     // Week Start MS = BirthDate MS + (week - 1) full weeks
+//     // 예: 1주차 -> (1-1)*7 = 0일 추가. 시작일은 출생일
+//     const startMs = birthDate.getTime() + ((week - 1) * 7 * MS_PER_DAY);
+//     const start = new Date(startMs); // 주차 시작일 Date 객체
+
+//     // Week End MS = Week Start MS + 6일 (주차는 7일 단위)
+//     const endMs = startMs + (6 * MS_PER_DAY);
+//     const end = new Date(endMs); // 주차 종료일 Date 객체
+
+//     // 2. 최종 생성된 Date 객체가 유효한지 확인 (방어 로직)
+//     if (isNaN(start.getTime())) {
+//         console.error("Calculated Start Date is Invalid for infant week:", week);
+//         return [null, null];
+//     }
+
+//     // YYYY-MM-DD 포맷으로 변환 (toISOString은 UTC 기반)
+//     const formatDate = (date) => date.toLocaleDateString("sv-SE", { timeZone: "Asia/Seoul" });
+
+//     return [formatDate(start), formatDate(end)];
+// };
+
+export const infantMonthStartEnd = (birthDateStr, month) => {
+    const infantbirthDate = parseDate(birthDateStr);
+    if (isNaN(infantbirthDate.getTime())) {
+        console.error("Invalid Birth Date:", birthDateStr);
         return [null, null];
     }
 
-    // 생후 0주차 시작일은 birthDate입니다.
-    // Week Start MS = BirthDate MS + (week - 1) full weeks
-    // 예: 1주차 -> (1-1)*7 = 0일 추가. 시작일은 출생일
-    const startMs = birthDate.getTime() + ((week - 1) * 7 * MS_PER_DAY);
-    const start = new Date(startMs); // 주차 시작일 Date 객체
+    // 시작일 = birthDate + (month-1)개월
+    const start = new Date(infantbirthDate);
+    start.setMonth(start.getMonth() + (month - 1));
 
-    // Week End MS = Week Start MS + 6일 (주차는 7일 단위)
-    const endMs = startMs + (6 * MS_PER_DAY);
-    const end = new Date(endMs); // 주차 종료일 Date 객체
+    // 종료일 = 시작일 + 1개월 - 1일
+    const end = new Date(start);
+    end.setMonth(end.getMonth() + 1);
+    end.setDate(end.getDate() - 1);
 
-    // 2. 최종 생성된 Date 객체가 유효한지 확인 (방어 로직)
-    if (isNaN(start.getTime())) {
-        console.error("Calculated Start Date is Invalid for infant week:", week);
-        return [null, null];
-    }
-
-    // YYYY-MM-DD 포맷으로 변환 (toISOString은 UTC 기반)
     const formatDate = (date) => date.toLocaleDateString("sv-SE", { timeZone: "Asia/Seoul" });
-
     return [formatDate(start), formatDate(end)];
 };

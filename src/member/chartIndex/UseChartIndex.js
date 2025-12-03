@@ -3,6 +3,7 @@ import { caxios } from "../../config/config";
 import { FETAL_STANDARDS } from "./FetalStandardData";
 import { calculateFetalWeek, calculateInfantWeek } from "../utils/pregnancyUtils";
 import useAuthStore from "../../store/useStore";
+import { INFANT_STANDARDS } from "./InfantStandardData";
 
 export const useChartIndex = (currentWeek, setCurrentWeek) => {
   const { babySeq } = useAuthStore((state) => state);
@@ -45,8 +46,15 @@ export const useChartIndex = (currentWeek, setCurrentWeek) => {
   }, [babySeq]);
 
   const currentStandardData = useMemo(() => {
-    if (!isFetalMode || currentWeek <= 0) return null;
-    return FETAL_STANDARDS[currentWeek];
+    if (currentWeek <= 0) return null;
+
+    if (isFetalMode) {
+      return FETAL_STANDARDS[currentWeek];
+    } else {
+      // 영유아 모드: currentWeek → monthIndex 변환
+      const monthIndex = Math.min(Math.floor(currentWeek / 4), INFANT_STANDARDS.length - 1);
+      return INFANT_STANDARDS[monthIndex];
+    }
   }, [currentWeek, isFetalMode]);
 
   return {

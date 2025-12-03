@@ -3,7 +3,7 @@ import styles from "./ChartInput.module.css";
 import { submitChartData, updateChartData } from "./UseChartInput"; // JS 분
 import useAuthStore from "../../../store/useStore";
 import { FETAL_STANDARDS } from "../FetalStandardData";
-import { fetalWeekStartEnd } from "member/utils/pregnancyUtils";
+import { fetalWeekStartEnd, infantMonthStartEnd } from "member/utils/pregnancyUtils";
 const ChartInput = ({ menuList, activeMenu, currentWeek, isFetalMode, inputs, setInputs, actualData, setActualData, fetchActualData, measureTypes }) => {
   const activeItem = menuList[activeMenu];
   const { id, babySeq, babyDueDate } = useAuthStore(state => state);
@@ -16,12 +16,16 @@ const ChartInput = ({ menuList, activeMenu, currentWeek, isFetalMode, inputs, se
   const [render, setRender] = useState(false);
 
   // 입력값 업데이트
-  const map = {
+  const map = isFetalMode ? {
     EFW: "몸무게",
     OFD: "머리직경",
     HC: "머리둘레",
     AC: "복부둘레",
     FL: "허벅지 길이",
+  } : {
+    EW: "몸무게",
+    HC: "머리둘레",
+    HT: "신장"
   };
 
 
@@ -45,16 +49,17 @@ const ChartInput = ({ menuList, activeMenu, currentWeek, isFetalMode, inputs, se
     setInputs(prev => ({ ...prev, [key]: value }));
   };
 
-  const REQUIRED_KEYS = [
+  const REQUIRED_KEYS = isFetalMode ? [
     "몸무게",
     "머리직경",
     "머리둘레",
     "복부둘레",
     "허벅지 길이"
+  ] : [
+    "몸무게",
+    "머리둘레",
+    "신장"
   ];
-
-
-
 
   const handleSubmit = async () => {
 
@@ -142,8 +147,7 @@ const ChartInput = ({ menuList, activeMenu, currentWeek, isFetalMode, inputs, se
       return;
     }
 
-
-    const [start, end] = fetalWeekStartEnd(babyDueDate, currentWeek);
+    const [start, end] = isFetalMode ? fetalWeekStartEnd(babyDueDate, currentWeek) : infantMonthStartEnd(babyDueDate, Math.floor(currentWeek / 4));
     setWeekStart(start);
     setWeekEnd(end);
     console.log("weekStart / weekEnd:", start, end);
