@@ -66,7 +66,11 @@
 /* 스크롤바 스타일 */
   scrollbar-width: thin; /* Firefox */
   scrollbar-color: var(--color-primary) transparent;
+  /* border:1px solid black; */
+}
 
+.babyList {
+  padding-left: 5px; /* 왼쪽에서 오른쪽으로 밀어내기 */
 }
 
 /* Webkit 계열 브라우저 (Chrome, Edge, Safari) */
@@ -125,7 +129,7 @@
 
 .ingbaby:hover {
   background-color: #fff4d6;
-  transform: scale(1.05);
+  transform: scaleX(1.05);
   transition: transform 0.3s ease;
 }
 
