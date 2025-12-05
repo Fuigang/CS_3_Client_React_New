@@ -5,12 +5,13 @@ import Signup from './notmember/signup/Signup';
 import MainIndex from './notmember/mainIndex/MainIndex';
 import ChooseType from "./member/chooseType/ChooseType.jsx";
 import InputBaby from "./member/inputBaby/InputBaby";
-
+import PrivateRoute, { ToLogin } from "./privateRoute";
 import useAuthStore from './store/useStore.js';
 
 import { connectWebSocket } from 'common/webSocket/connectWebSocket';
 import "./styles/them.css";
 import { caxios } from 'config/config';
+import LoginBox from 'notmember/login/loginBox/LoginBox';
 
 function AppRoutes() {
   const location = useLocation(); // 현재 경로 감지
@@ -21,10 +22,15 @@ function AppRoutes() {
   // 경로 변화 감지
   useEffect(() => {
     if (!isLogin) return;
+
     const paths = ["/board", "/mypage", "/babymypage", "/checklist", "/chart", "/diary"];
-    console.log("현재 path:", location.pathname);
-    if (paths.some(path => location.pathname.startsWith(path))) {
-      caxios.post("/dashCart", { path: location.pathname })
+    const currentPath = location.pathname;
+
+    console.log("현재 path:", currentPath);
+
+    // 정확히 paths 배열에 있는 값만 처리
+    if (paths.includes(currentPath)) {
+      caxios.post("/dashCart", { path: currentPath })
         .catch(err => console.log(err));
     }
   }, [location, isLogin]);
@@ -74,10 +80,11 @@ function AppRoutes() {
   return (
     <Routes>
       <Route path='/login/*' element={<Login alerts={alerts} setAlerts={setAlerts} />} />
-      <Route path='/signup/*' element={<Signup />} />
-      <Route path="/chooseType" element={<ChooseType />} />
+      <Route path='/signup/*' element={<PrivateRoute><Signup /></PrivateRoute>} />
+      <Route path="/chooseType" element={<PrivateRoute><ChooseType /></PrivateRoute>} />
       <Route path='/*' element={<MainIndex isLogin={isLogin} alerts={alerts} setAlerts={setAlerts} />} />
-      <Route path="input-baby" element={<InputBaby />} />
+      <Route path="input-baby" element={<PrivateRoute><InputBaby /></PrivateRoute>} />
+      <Route path="*" element={<ToLogin />} />
     </Routes>
   );
 }

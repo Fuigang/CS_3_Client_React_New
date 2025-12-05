@@ -21,6 +21,9 @@ import ChooseType from "../../member/chooseType/ChooseType";
 import Loading from "common/loading/Loading";
 import { useEffect, useState } from "react";
 import { caxios } from "config/config";
+import PrivateRoute, { ToLogin } from "privateRoute";
+import LoginBox from "notmember/login/loginBox/LoginBox";
+import Login from "notmember/login/Login";
 
 //메인 인덱스 페이지
 //여기서 로그인 여부에 따라서 보이고 안보이는게 다르게 만들어야함
@@ -43,10 +46,15 @@ const MainIndex = ({ alerts, setAlerts }) => {
   // 경로 변화 감지
   useEffect(() => {
     if (!isLogin) return;
+
     const paths = ["/board", "/mypage", "/babymypage", "/checklist", "/chart", "/diary"];
-    console.log("현재 path:", location.pathname);
-    if (paths.some(path => location.pathname.startsWith(path))) {
-      caxios.post("/dashCart", { path: location.pathname })
+    const currentPath = location.pathname;
+
+    console.log("현재 path:", currentPath);
+
+    // 정확히 paths 배열에 있는 값만 처리
+    if (paths.includes(currentPath)) {
+      caxios.post("/dashCart", { path: currentPath })
         .catch(err => console.log(err));
     }
   }, [location, isLogin]);
@@ -93,13 +101,14 @@ const MainIndex = ({ alerts, setAlerts }) => {
           {/*로그인 안되어 있으면 ? 인포메이션 : 되면 베이비인덱스*/}
           <Route path="board/*" element={<BoardIndex />} /> {/*커뮤니티*/}
           {/*-----------------------------------------------------------------------여기까지는 비회원도 접근 가능한 부분 아래는 불가하게 막아야함*/}
-          <Route path="mypage" element={<ParentInfoIndex />} />
-          <Route path="babymypage" element={<BabyInfoIndex />} />
+          <Route path="mypage" element={<PrivateRoute><ParentInfoIndex /></PrivateRoute>} />
+          <Route path="babymypage" element={<PrivateRoute><BabyInfoIndex /></PrivateRoute>} />
           {/*아기 마이페이지*/}
-          <Route path="checklist" element={<CheckListIndex />} />
+          <Route path="checklist" element={<PrivateRoute><CheckListIndex /></PrivateRoute>} />
           {/*검진 체크리스트*/}
-          <Route path="chart/*" element={<ChartIndex />} /> {/*차트*/}
-          <Route path="diary/*" element={<DiaryIndex />} /> {/*산모수첩*/}
+          <Route path="chart/*" element={<PrivateRoute><ChartIndex /></PrivateRoute>} /> {/*차트*/}
+          <Route path="diary/*" element={<PrivateRoute><DiaryIndex /></PrivateRoute>} /> {/*산모수첩*/}
+          <Route path="*" element={<ToLogin />} /> 
         </Routes>
       </div>
     </div>

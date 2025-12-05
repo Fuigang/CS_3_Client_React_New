@@ -173,6 +173,8 @@ export function UseBoardDetail({ initialComments, handleDeleteBoard, handleEditB
 
         const resp = await caxios.get("/board/detail", { params: { seq } });
         setTargetBoardFile(resp.data.files);
+        console.log("sdsdfssdfsdfsd",resp.data);
+        console.log("dpdpdd",resp.data.boards);
         setTargetBoard(resp.data.boards);
         setComments(buildCommentTree(resp.data.comments));
 
