@@ -1,27 +1,16 @@
 import { useState, useEffect, useRef } from "react";
-import { motion, useAnimation } from "framer-motion";
+import { motion } from "framer-motion";
 import styles from "./Information.module.css";
-import {
-  Check,
-  Heart,
-  Activity,
-  BookOpen,
-  AlertCircle,
-  UserCog,
-  MessageCircle,
-  TrendingUp,
-} from "lucide-react";
+import { Heart, Activity, BookOpen, UserCog, TrendingUp } from "lucide-react";
 
 const sections = [
   {
     id: "hero",
     title: "완벽한 육아 파트너",
     subtitle: "우리 아이의 소중한 성장을 기록하고, 커뮤니티의 지혜를 더하세요.",
-    cta: "지금 바로 시작하기",
     bgColor: "white",
     imgPosition: "none",
     icon: null,
-    image: null,
   },
   {
     id: "baby-info",
@@ -31,7 +20,6 @@ const sections = [
     bgColor: "#FCD34D",
     imgPosition: "left",
     icon: Heart,
-    image: null,
   },
   {
     id: "health-record",
@@ -41,7 +29,6 @@ const sections = [
     bgColor: "#93C5FD",
     imgPosition: "right",
     icon: Activity,
-    image: null,
   },
   {
     id: "growth-chart",
@@ -51,7 +38,6 @@ const sections = [
     bgColor: "#4ade80",
     imgPosition: "none",
     icon: TrendingUp,
-    image: null,
   },
   {
     id: "journal-emergency",
@@ -60,7 +46,6 @@ const sections = [
     bgColor: "#FFF4D6",
     imgPosition: "grid",
     icon: BookOpen,
-    image: null,
   },
   {
     id: "community-mypage",
@@ -69,16 +54,19 @@ const sections = [
     bgColor: "#ffffff",
     imgPosition: "grid",
     icon: UserCog,
-    image: null,
   },
 ];
 
 const Information = () => {
   const [currentSection, setCurrentSection] = useState(0);
+  const [hoverIndex, setHoverIndex] = useState(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
   const sectionRefs = useRef([]);
 
   const handleScroll = () => {
     const scrollPos = window.scrollY + window.innerHeight / 2;
+
     sectionRefs.current.forEach((sec, idx) => {
       if (
         sec.offsetTop <= scrollPos &&
@@ -87,6 +75,11 @@ const Information = () => {
         setCurrentSection(idx);
       }
     });
+
+    // 진행 바 퍼센트 계산
+    const maxScroll = document.body.scrollHeight - window.innerHeight;
+    const progress = (window.scrollY / maxScroll) * 100;
+    setScrollProgress(progress);
   };
 
   const scrollToSection = (idx) => {
@@ -103,24 +96,46 @@ const Information = () => {
 
   return (
     <div className={styles.container}>
-      {/* Dot Navigation */}
-      <div className={styles.dotNav}>
+      {/* Dot Navigation (Fade In/Out + 모바일 좌측 이동 + ProgressBar 포함) */}
+      <motion.div
+        className={styles.dotNav}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
+        {/* 점 네비 */}
         {sections.map((_, idx) => (
           <div
             key={idx}
             className={`${styles.dot} ${
               currentSection === idx ? styles.activeDot : ""
             }`}
+            onMouseEnter={() => setHoverIndex(idx)}
+            onMouseLeave={() => setHoverIndex(null)}
             onClick={() => scrollToSection(idx)}
           />
         ))}
+
+        {/* dotIndicator → hover / active 이동 */}
         <div
           className={styles.dotIndicator}
-          style={{ transform: `translateY(${currentSection * 32}px)` }}
+          style={{
+            transform: `translateY(${
+              (hoverIndex !== null ? hoverIndex : currentSection) * 32
+            }px)`,
+          }}
         />
-      </div>
 
-      {/* Sections */}
+        {/* Progress Bar (스크롤 퍼센트) */}
+        <div className={styles.progressBar}>
+          <div
+            className={styles.progressFill}
+            style={{ height: `${scrollProgress}%` }}
+          />
+        </div>
+      </motion.div>
+
+      {/* 각 Section */}
       {sections.map((sec, idx) => (
         <motion.section
           key={sec.id}
@@ -132,24 +147,17 @@ const Information = () => {
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.8, type: "spring", stiffness: 50 }}
         >
-          <div
-            className={`${styles.contentWrapper} ${
-              sec.imgPosition === "left"
-                ? styles.left
-                : sec.imgPosition === "right"
-                ? styles.right
-                : ""
-            }`}
-          >
+          <div className={styles.contentWrapper}>
             {sec.icon && <sec.icon size={48} className={styles.sectionIcon} />}
+
             <div className={styles.textBlock}>
               <h2 className={styles.title}>{sec.title}</h2>
               <p className={styles.subtitle}>{sec.subtitle}</p>
             </div>
+
             {sec.imgPosition !== "none" && (
               <motion.div
                 className={styles.imagePlaceholder}
-                style={{ backgroundColor: "#e0e0e0" }}
                 initial={{
                   x: sec.imgPosition === "left" ? -200 : 200,
                   opacity: 0,
@@ -163,10 +171,7 @@ const Information = () => {
             )}
           </div>
 
-          {/* Gradient 연결 라인 */}
-          {idx < sections.length - 1 && (
-            <div className={styles.gradientLine}></div>
-          )}
+          {idx < sections.length - 1 && <div className={styles.gradientLine} />}
         </motion.section>
       ))}
     </div>

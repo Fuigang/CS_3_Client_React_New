@@ -14,36 +14,45 @@ import ChartIndex from "../../member/chartIndex/ChartIndex";
 import DiaryIndex from "../../member/diaryIndex/DiaryIndex";
 import BoardIndex from "../boardIndex/BoardIndex";
 import ParentInfoIndex from "../../member/parentInfoIndex/ParentInfoIndex";
-import InputBaby from "../../member/inputBaby/InputBaby";
+import Loading from "common/loading/Loading";
+
 import styles from "./MainIndex.module.css";
 import useAuthStore from "../../store/useStore";
-import ChooseType from "../../member/chooseType/ChooseType";
-import Loading from "common/loading/Loading";
-import { useEffect, useState } from "react";
 import { caxios } from "config/config";
 
-//메인 인덱스 페이지
-//여기서 로그인 여부에 따라서 보이고 안보이는게 다르게 만들어야함
-// "/"밑으로 들어가느 라우팅
+import { useEffect, useRef, useState } from "react";
+
 const MainIndex = ({ alerts, setAlerts }) => {
-  const { isLogin, babySeq } = useAuthStore((state) => state);
+  const { isLogin } = useAuthStore((state) => state);
+  const location = useLocation();
 
-  const location = useLocation(); //현재 URL 경로
-
+  /** -----------------------------
+   *  모든 Hook은 조건문 밖 최상단
+  --------------------------------*/
   const [isLoading, setIsLoading] = useState(true);
 
-  // 예: 로그인 정보, 초기 데이터 등 준비 후 로딩 해제
+  // 헤더 높이 측정
+  const headerRef = useRef(null);
+  const [headerHeight, setHeaderHeight] = useState(98);
+
+  // Information 페이지 여부 (비로그인 + "/")
+  const isInfoPage = !isLogin && location.pathname === "/";
+
+  /** -----------------------------
+   *  로딩 처리 useEffect
+  --------------------------------*/
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false); // 실제 API 요청 후 false로 바꿀 수 있음
-    }, 500); // 예시로 0.5초 후 로딩 종료
+    const timer = setTimeout(() => setIsLoading(false), 500);
     return () => clearTimeout(timer);
   }, []);
 
-  // 경로 변화 감지
+  /** -----------------------------
+   *  경로 변화 감지
+  --------------------------------*/
   useEffect(() => {
     if (!isLogin) return;
-    const paths = [
+
+    const trackablePaths = [
       "/board",
       "/mypage",
       "/babymypage",
@@ -51,49 +60,67 @@ const MainIndex = ({ alerts, setAlerts }) => {
       "/chart",
       "/diary",
     ];
-    console.log("현재 path:", location.pathname);
-    if (paths.some((path) => location.pathname.startsWith(path))) {
-      caxios
-        .post("/dashCart", { path: location.pathname })
-        .catch((err) => console.log(err));
+
+    if (trackablePaths.some((p) => location.pathname.startsWith(p))) {
+      caxios.post("/dashCart", { path: location.pathname }).catch(() => {});
     }
   }, [location, isLogin]);
 
-  // 로딩 중이면 화면 전체 로딩 표시
-  if (isLoading) {
-    return <Loading message="페이지를 준비하고 있습니다" />;
-  }
+  /** -----------------------------
+   *  헤더 높이 자동 측정 (반응형 대응)
+  --------------------------------*/
+  useEffect(() => {
+    if (!headerRef.current) return;
 
-  // 배경 전체가 노란색이 나와야하는 경로 목록
+    const updateHeight = () => {
+      setHeaderHeight(headerRef.current.offsetHeight);
+    };
+
+    updateHeight();
+
+    const observer = new ResizeObserver(updateHeight);
+    observer.observe(headerRef.current);
+
+    return () => observer.disconnect();
+  }, []);
+
+  /** -----------------------------
+   * 노란 배경을 써야 하는 경로
+  --------------------------------*/
   const yellowBackgroundPaths = ["/", "/babyIndex", "/babymypage"];
 
-  // 현재 경로가 노란 배경을 사용할 경로에 포함되는지 확인
   const isYellowBackground =
     isLogin &&
-    yellowBackgroundPaths.some((path) => {
-      if (path == "/") {
-        return location.pathname == "/";
-      }
-      return location.pathname.startsWith(path);
-    });
+    yellowBackgroundPaths.some((path) =>
+      path === "/"
+        ? location.pathname === "/"
+        : location.pathname.startsWith(path)
+    );
 
-  // 헤더와 메인 레이아웃에 적용할 클래스를 동적으로 결정
   const mainLayoutClassName = isYellowBackground
     ? styles.layoutMainYellow
     : styles.layoutMain;
 
+  /** -----------------------------
+   *  Hook 사용 후 return 허용
+  --------------------------------*/
+  if (isLoading) {
+    return <Loading message="페이지를 준비하고 있습니다" />;
+  }
+
   return (
     <div className={styles.container}>
-      {/* 컨테이너 영역 */}
-      {/* 헤더 영역 */}
-      <header className={styles.MemberHeader}>
-        <CommonHeader
-          isLogin={isLogin}
-          alerts={alerts}
-          setAlerts={setAlerts}
-        />
+      {/* 헤더 (Information 페이지에서만 고정) */}
+      <header
+        ref={headerRef}
+        className={
+          isInfoPage ? styles.MemberHeaderFixed : styles.MemberHeaderNormal
+        }
+      >
+        <CommonHeader isLogin={isLogin} alerts={alerts} setAlerts={setAlerts} />
       </header>
-      {/* 바디 영역 */}
+
+      {/* 메인 */}
       <div className={mainLayoutClassName}>
         <Routes>
           <Route path="" element={!isLogin ? <Information /> : <BabyIndex />} />
@@ -112,4 +139,5 @@ const MainIndex = ({ alerts, setAlerts }) => {
     </div>
   );
 };
+
 export default MainIndex;
