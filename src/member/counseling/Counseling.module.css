@@ -12,13 +12,7 @@
 .left {
   width: 60%;
   height: 100%;
-<<<<<<< HEAD
-  position: relative; /* z-index 적용 가능하게 */
-  z-index: 10001;     /* 오른쪽보다 낮게 설정하면 뒤에 깔림 */
-  background-color: rgba(140, 140, 140, 0.5); /* 투명 어둡게 overlay 느낌 */
-=======
   background-color: var(--modal-overlay);
->>>>>>> 5824c0c51cdbc13507716cc6c6a05221048c78c9
 }
 
 .right {
