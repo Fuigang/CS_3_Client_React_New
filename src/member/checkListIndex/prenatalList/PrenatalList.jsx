@@ -12,13 +12,7 @@ const CheckItem = ({ check, onToggle }) => {
     : styles.checkPending; // 미완료 상태 (테두리만 있음)
 
   return (
-    <motion.div
-      className={styles.checkItem}
-      // Framer Motion: 항목 로드 시 왼쪽에서 부드럽게 나타나는 애니메이션 효과 적용
-      initial={{ opacity: 0, x: -20 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.4 }}
-    >
+    <div className={styles.checkItem}>
       <div className={styles.checkRow}>
         <button className={checkCircleClass} onClick={() => onToggle(check)} />
         <div className={styles.checkContent}>
@@ -29,7 +23,7 @@ const CheckItem = ({ check, onToggle }) => {
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
@@ -44,12 +38,7 @@ const WeekSection = ({ data, onToggle, isSpecialWeek }) => {
     : styles.defaultDotLine; // 일반 섹션 라인 도트
 
   return (
-    <motion.div
-      className={styles.section}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.9 }}
-    >
+    <div className={styles.section}>
       <div className={styles.sectionInner}>
         <div className={containerClass}>
           {/* 주차 라인의 도트와 연결선 */}
@@ -70,7 +59,7 @@ const WeekSection = ({ data, onToggle, isSpecialWeek }) => {
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
@@ -204,7 +193,7 @@ const PrenatalList = ({ babyData }) => {
                     <input
                       type="date"
                       name="date"
-                      value={data.created_at} 
+                      value={data.created_at}
                       onChange={handelChange}
                       min={
                         checkClicked
