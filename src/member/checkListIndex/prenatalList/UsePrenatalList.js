@@ -87,7 +87,27 @@ function UsePrenatalList(setChecklist, setIsModalOpen, setCheckClicked, selected
 
         const deleteData = { ...data, baby_seq: babySeq, test_code: checkId };
         caxios.post("/checkList/delete", deleteData)
-            .then(resp => { alert("삭제 완료") })
+            .then(resp => {
+                alert("삭제 완료");
+                // 서버 삭제 성공 후 클라이언트 상태 갱신
+                setChecklist(prev =>
+                    prev.map(section => ({
+                        ...section,
+                        checks: section.checks.map(c =>
+                            c.id === checkId
+                                ? { ...c, isDone: false, date: "", is_checked: "" }
+                                : c
+                        )
+                    }))
+                );
+
+                setData(prev => ({
+                    ...prev,
+                    test_code: "",
+                    is_checked: "",
+                    created_at: ""
+                }));
+            })
             .catch((err) => console.error(err));
     };
 

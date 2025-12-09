@@ -23,8 +23,18 @@ function UseBabyCheckList() {
                     const createdDate = new Date(item.created_at);
                     const todayDate = new Date();
                     todayDate.setHours(0, 0, 0, 0);
-                    const diffTime = createdDate - todayDate;
-                    const diffDays = Math.ceil(Math.abs(diffTime) / (1000 * 60 * 60 * 24));
+
+                    const diffTime = createdDate.setHours(0, 0, 0, 0) - todayDate.getTime();
+                    let badge;
+                    if (diffTime === 0) {
+                        badge = "D-Day";
+                    } else if (diffTime < 0) {
+                        const diffDays = Math.abs(Math.floor(diffTime / (1000 * 60 * 60 * 24)));
+                        badge = `D + ${diffDays}`;
+                    } else {
+                        const diffDays = Math.abs(Math.floor(diffTime / (1000 * 60 * 60 * 24)));
+                        badge = `D - ${diffDays}`;
+                    }
 
                     return {
                         ...item,
@@ -32,7 +42,7 @@ function UseBabyCheckList() {
                         buttonText: createdDate <= todayDate ? "완료" : "예약취소",
                         text: findTitleByTestCode(item.test_code), // test_code에 맞는 title
                         date: item.created_at,
-                        badge: createdDate <= todayDate ? `D + ${diffDays}` : `D - ${diffDays}` // 필요에 따라 수정 가능
+                        badge // 여기만 수정
                     };
                 });
 
