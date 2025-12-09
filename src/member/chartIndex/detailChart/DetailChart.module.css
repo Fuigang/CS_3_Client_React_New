@@ -1,7 +1,7 @@
 .contentBox {
   flex: 1;
   height: 100%;
-  border: 1px solid #f0d827; /* 테두리 색상 */
+  border: 1px solid var(--color-primary);
   border-radius: 22px;
   box-sizing: border-box;
   min-width: 0;
@@ -39,6 +39,6 @@
 
 @media (max-width: 480px) {
   .contentBox {
-    height: 350px;
+    height: 500px;
   }
 }

@@ -3,13 +3,21 @@ import styles from "./TotalChart.module.css";
 import { UseTotalChart } from "./UseTotalChart";
 import ReactECharts from "echarts-for-react";
 
-
-const TotalChart = ({ currentWeek, standardData, actualData, setActualData, isFetalMode, inputs }) => {
-
-
-
-  const option = UseTotalChart(currentWeek, standardData, actualData, inputs || {}, isFetalMode);
-
+const TotalChart = ({
+  currentWeek,
+  standardData,
+  actualData,
+  setActualData,
+  isFetalMode,
+  inputs,
+}) => {
+  const option = UseTotalChart(
+    currentWeek,
+    standardData,
+    actualData,
+    inputs || {},
+    isFetalMode
+  );
 
   const [reset, setReset] = useState(true);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -27,7 +35,6 @@ const TotalChart = ({ currentWeek, standardData, actualData, setActualData, isFe
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-
   let fontSize = 16;
   let lineWidth = 3;
 
@@ -40,7 +47,7 @@ const TotalChart = ({ currentWeek, standardData, actualData, setActualData, isFe
     lineWidth = 2;
   }
   if (windowWidth <= 480) {
-    fontSize = 10;
+    fontSize = 0;
     lineWidth = 1;
   }
 

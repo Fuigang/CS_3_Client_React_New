@@ -149,3 +149,84 @@
   color: var(--color-font-color1);
   font-weight: bold;
 }
+
+/* 반응형 */
+@media (max-width: 1024px) {
+  .weekTitleWrapper {
+    padding: 6px 12px;
+    height: 28px;
+  }
+
+  .itemActive {
+    margin: 0;
+  }
+
+  .weekTitle {
+    font-size: 15px;
+  }
+
+  .checkLeft {
+    gap: 8px;
+  }
+
+  .checkTitle {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .weekTitleWrapper {
+    padding: 6px 10px;
+    height: 26px;
+  }
+
+  .weekTitle {
+    font-size: 14px;
+  }
+
+  .checkIconDone {
+    width: 8px;
+    height: 8px;
+  }
+
+  .checkTitle {
+    font-size: 14px;
+  }
+
+  .checkLeft {
+    gap: 7px;
+  }
+
+  .checkList {
+    gap: 8px;
+  }
+}
+
+/* --- 480px 이하 (작은 모바일) --- */
+@media (max-width: 480px) {
+  .weekTitleWrapper {
+    padding: 4px 8px;
+    height: 24px;
+  }
+
+  .weekTitle {
+    font-size: 13px;
+  }
+
+  .checkList {
+    gap: 6px;
+  }
+
+  .checkIconDone {
+    width: 7px;
+    height: 7px;
+  }
+
+  .checkLeft {
+    gap: 6px;
+  }
+
+  .checkTitle {
+    font-size: 13px;
+  }
+}

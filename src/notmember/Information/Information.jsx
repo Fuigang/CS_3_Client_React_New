@@ -2,9 +2,24 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import styles from "./Information.module.css";
-import img1 from "./imgs/index.png"; // PC 이미지
-import img2 from "./imgs/768img.png"; // 태블릿 이미지
-import img3 from "./imgs/480img.png"; // 모바일 이미지
+
+// 이미지
+import section1 from "./imgs/index1.svg"; // 육아 홈페이지
+import section2 from "./imgs/CheckDetail.svg"; // 건강기록
+import section3 from "./imgs/index1.svg";
+import section3_1 from "./imgs/BornDiary.svg"; // 하루일기 반응형
+import section3_2 from "./imgs/Board.svg"; // 커뮤니티 반응형
+
+//section4
+import img1 from "./imgs/BoardIndex.svg"; // 커뮤니티
+import img2 from "./imgs/Counseling.svg"; // 긴급상담
+import img3 from "./imgs/index1.svg"; // 육아 홈페이지
+import img4 from "./imgs/UnBornDiaryIndex.svg"; // 차트
+import img5 from "./imgs/ParentInfoIndex.svg"; // 아기 추가
+import img6 from "./imgs/Diary.svg"; // 산모수첩
+import img7 from "./imgs/CheckDetail.svg"; // 건강기록
+import img8 from "./imgs/BornDiaryIndex.svg"; // 하루 일기
+import img9 from "./imgs/BoardDetail.svg"; // 커무니티 디테일
 
 // ---------------- 모션 Variants ----------------
 const fadeUp = {
@@ -93,13 +108,20 @@ const Information = () => {
     return () => observer.disconnect();
   }, []);
 
-  const galleryImgs = [
-    "/images/gallery1.png",
-    "/images/gallery2.png",
-    "/images/gallery3.png",
-    "/images/gallery4.png",
-    "/images/gallery5.png",
-    "/images/gallery6.png",
+  // 이미지 배열
+  const galleryImgs = [img1, img2, img3, img4, img5, img6, img7, img8, img9];
+
+  // 각 이미지별 이름 배열 (hover 텍스트)
+  const galleryTitles = [
+    "커뮤니티", // img1
+    "긴급 상담", // img2
+    "홈", // img3
+    "성장 차트", // img4
+    "마이페이지", // img5
+    "산모 수첩", // img6
+    "건강 기록", // img7
+    "하루 일기", // img8
+    "커뮤니티 댓글", // img9
   ];
 
   const navigate = useNavigate();
@@ -123,10 +145,12 @@ const Information = () => {
           variants={scaleUp}
         >
           <motion.h1 variants={fadeUp} className={styles.heroTitle}>
-            완벽한 육아 파트너
+            완벽한 육아 파트너 코코벨
           </motion.h1>
           <motion.p variants={fadeUp} className={styles.heroText}>
-            우리 아이의 소중한 성장을 기록하고, 커뮤니티의 지혜를 더하세요.
+            우리 아이의 소중한 성장을 기록하고,
+            <span className={styles.mobileBreak}></span> 커뮤니티의 지혜를
+            더하세요.
           </motion.p>
           <motion.button
             variants={fadeUp}
@@ -159,7 +183,7 @@ const Information = () => {
           <motion.img
             variants={fadeUp}
             className={styles.sectionImg}
-            src={img1}
+            src={section1}
             alt=""
           />
         </motion.div>
@@ -180,7 +204,7 @@ const Information = () => {
           <motion.img
             variants={fadeUp}
             className={styles.sectionImg}
-            src={img1}
+            src={section2}
             alt=""
           />
           <motion.div
@@ -232,19 +256,19 @@ const Information = () => {
             <motion.img
               variants={fadeUp}
               className={styles.deviceLarge}
-              src={img1}
+              src={section3}
               alt="PC Mockup"
             />
             <motion.img
               variants={fadeUp}
               className={styles.deviceMid}
-              src={img2}
+              src={section3_1}
               alt="Tablet Mockup"
             />
             <motion.img
               variants={fadeUp}
               className={styles.deviceSmall}
-              src={img3}
+              src={section3_2}
               alt="Mobile Mockup"
             />
           </motion.div>
@@ -271,30 +295,38 @@ const Information = () => {
           </motion.p>
 
           <div className={`${styles.galleryRow} ${styles.rowR2L}`}>
-            {[...galleryImgs, ...galleryImgs].map((src, i) => (
+            {galleryImgs.map((src, i) => (
               <motion.div
                 className={styles.slideItem}
                 key={`top-${i}`}
                 variants={galleryItemScaleUp}
               >
-                <img src={src} alt="" className={styles.galleryImg} />
+                <img
+                  src={src}
+                  alt={galleryTitles[i]}
+                  className={styles.galleryImg}
+                />
                 <div className={styles.galleryHover}>
-                  <span>{i % 2 === 0 ? "수유 기록" : "수면 기록"}</span>
+                  <span>{galleryTitles[i]}</span>
                 </div>
               </motion.div>
             ))}
           </div>
 
           <div className={`${styles.galleryRow} ${styles.rowL2R}`}>
-            {[...galleryImgs, ...galleryImgs].map((src, i) => (
+            {galleryImgs.map((src, i) => (
               <motion.div
                 className={styles.slideItem}
                 key={`bottom-${i}`}
                 variants={galleryItemScaleUp}
               >
-                <img src={src} alt="" className={styles.galleryImg} />
+                <img
+                  src={src}
+                  alt={galleryTitles[i]}
+                  className={styles.galleryImg}
+                />
                 <div className={styles.galleryHover}>
-                  <span>{i % 2 === 0 ? "발달 기록" : "건강 기록"}</span>
+                  <span>{galleryTitles[i]}</span>
                 </div>
               </motion.div>
             ))}

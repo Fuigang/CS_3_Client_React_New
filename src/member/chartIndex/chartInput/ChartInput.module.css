@@ -46,6 +46,17 @@
   color: var(--color-font-color1);
 }
 
+/* 숫자 input의 스피너 제거 */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
 .inputWithUnit {
   position: relative;
   display: flex;

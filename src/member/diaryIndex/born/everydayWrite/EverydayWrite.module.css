@@ -6,26 +6,26 @@
   height: 100%;
   background-color: rgba(0, 0, 0, 0.3);
   z-index: 9999;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .writeContainer {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  box-shadow: 6px 4px 11px rgba(0, 0, 0, 0.1);
-  border-radius: 22px;
-  background-color: #fff;
-  display: flex;
-  justify-content: center;
-  padding: 30px;
-  box-sizing: border-box;
-  text-align: center;
-  font-family: Pretendard;
-  z-index: 10000;
+  position: relative;
+  transform: none;
+  top: auto;
+  left: auto;
   width: 400px;
-  max-width: 95%;
-  max-height: 90vh;
+  padding: 30px;
+
+  background-color: #fff;
+  border-radius: 22px;
+  box-shadow: 6px 4px 11px rgba(0, 0, 0, 0.1);
+  z-index: 10000;
+
+  max-height: 90%;
   overflow-y: auto;
 }
 
@@ -180,7 +180,7 @@
 .actionButtonsContainer {
   width: 100%;
   display: flex;
-  gap: 25px;
+  gap: 16px;
 }
 
 /* 버튼 공통 스타일 */
@@ -247,22 +247,24 @@
   }
 
   .actionButtonsContainer {
-    gap: 15px;
+    width: 100%;
+    align-items: center;
+    gap: 16px;
   }
 
   .actionButton {
-    height: 42px;
+    height: 44px;
   }
 }
 
 @media (max-width: 480px) {
   .writeContainer {
-    width: 95%;
-    padding: 15px;
+    width: 90%;
+    padding: 16px;
   }
 
   .contentWrapper {
-    gap: 15px;
+    gap: 16px;
   }
 
   .categoryTitle {
@@ -296,15 +298,21 @@
 
   .actionButtonsContainer {
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
   }
 
   .actionButton {
-    height: 38px;
+    width: 100%;
+    text-align: center;
   }
 
   .buttonText,
   .buttonTextBold {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: 14px;
+    height: 40px;
   }
 }

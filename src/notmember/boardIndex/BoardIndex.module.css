@@ -6,10 +6,17 @@
   align-items: center;
 }
 
-/* 반응형 - 태블릿 이하에서는 좌우 1:1 대신 전체 세로 배치 */
 @media (max-width: 1440px) {
   .container {
     padding: 20px 0;
+    overflow-y: auto;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .container::-webkit-scrollbar {
+    display: none;
   }
 }
 

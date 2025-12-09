@@ -365,14 +365,56 @@
 }
 
 /* --- 반응형 --- */
-/* 1440px 이하: 4컬럼 */
 @media (max-width: 1440px) {
   .container {
-    padding: 20px 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: #fff;
+    padding-bottom: 16px;
+  }
+
+  .cardGrid {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 100px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-primary) transparent;
+  }
+
+  /* 스크롤바 css 적용 */
+  .cardGrid::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  /* 3. 스크롤바 트랙(배경) */
+  .cardGrid::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  /* 4. 스크롤바 핸들(움직이는 막대) */
+  .cardGrid::-webkit-scrollbar-thumb {
+    background-color: var(--color-primary);
+    border-radius: 4px;
+    border: 2px solid var(--color-white);
+  }
+
+  /* 5. 핸들에 마우스를 올렸을 때 색상 변경 */
+  .cardGrid::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-hover);
   }
 
   .gridContainer {
+    height: auto;
+    overflow: visible;
     grid-template-columns: repeat(4, 1fr);
+    padding-bottom: 70px;
   }
 }
 
@@ -380,6 +422,7 @@
 @media (max-width: 1024px) {
   .gridContainer {
     grid-template-columns: repeat(3, 1fr);
+    padding: 30px 0;
   }
 
   .leftGroup {
@@ -508,7 +551,11 @@
 }
 
 /* 360px 이하: 더 작게 */
-@media (max-width: 360px) {
+@media (max-width: 380px) {
+  .gridContainer {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
   .categoryItem {
     height: 40px;
     font-size: 12px;

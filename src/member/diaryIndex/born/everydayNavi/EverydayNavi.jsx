@@ -30,26 +30,52 @@ const cardVariants = {
   },
 };
 
-
-
-const EverydayNavi = ({ startDate, setStartDate, endDate, setEndDate, avg, handleSearch }) => {
-  const {
-    today,
-    loading
-  } = useEverydayNavi();
-
+const EverydayNavi = ({
+  startDate,
+  setStartDate,
+  endDate,
+  setEndDate,
+  avg,
+  handleSearch,
+}) => {
+  const { today, loading } = useEverydayNavi();
 
   return (
     <div className={styles.container}>
       {/* 날짜 선택 */}
       <div className={styles.dateBox}>
-        <input type="date" value={startDate} className={styles.dateInput} onChange={(e) => setStartDate(e.target.value)} max={today} />
-        <input type="date" value={endDate} className={styles.dateInput} onChange={(e) => setEndDate(e.target.value)} max={today} />
-        <button onClick={() => { handleSearch(startDate, endDate) }} disabled={loading}> {loading ? "로딩..." : "검색"}</button>
+        <input
+          type="date"
+          value={startDate}
+          className={styles.dateInput}
+          onChange={(e) => setStartDate(e.target.value)}
+          max={today}
+        />
+        <input
+          type="date"
+          value={endDate}
+          className={styles.dateInput}
+          onChange={(e) => setEndDate(e.target.value)}
+          max={today}
+        />
+        <button
+          onClick={() => {
+            handleSearch(startDate, endDate);
+          }}
+          disabled={loading}
+        >
+          {" "}
+          {loading ? "로딩..." : "검색"}
+        </button>
       </div>
 
       {/* 요약 카드 */}
-      <motion.div variants={listContainer} initial="hidden" animate="show">
+      <motion.div
+        className={styles.summaryContainer}
+        variants={listContainer}
+        initial="hidden"
+        animate="show"
+      >
         <div className={styles.summaryGrid}>
           {Object.entries(summaryData).map(([key, item]) => {
             const Icon = item.icon;

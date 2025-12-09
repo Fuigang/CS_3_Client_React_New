@@ -299,13 +299,11 @@ const EverydayDetail = ({
       </AnimatePresence>
 
       {/* 모달 */}
-      {/* showModal 상태가 true일 때만 EverydayWrite 컴포넌트 렌더링 */}
       <AnimatePresence>
         {showModal && (
           <EverydayWrite
             activeType={activeType}
             closeModal={closeModal}
-            // EverydayWrite 내부에서 AnimatePresence가 showModal을 대신하도록 isOpen prop을 전달
             isOpen={showModal}
             currentDate={currentDate}
             fetchData={fetchData}

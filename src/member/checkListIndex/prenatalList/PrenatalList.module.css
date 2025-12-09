@@ -405,8 +405,8 @@
 
   .checkPending,
   .checkDone {
-    min-width: 32px;
-    min-height: 32px;
+    min-width: 24px;
+    min-height: 24px;
   }
 
   .weekHeader {

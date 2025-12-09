@@ -61,7 +61,6 @@ const DetailChart = ({ menuList, activeMenu, currentWeek, actualData, standardDa
     lineWidth = 2;
   }
   if (windowWidth <= 480) {
-    fontSize = 10;
     lineWidth = 1;
   }
 

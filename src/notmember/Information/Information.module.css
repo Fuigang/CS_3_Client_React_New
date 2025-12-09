@@ -33,6 +33,10 @@
   line-height: 1.5;
 }
 
+.mobileBreak {
+  display: inline;
+}
+
 .btnStart {
   margin-top: 28px;
   padding: 14px 32px;
@@ -87,6 +91,7 @@
 }
 
 .sectionImg {
+  border-radius: 12px;
   width: 700px;
   height: auto;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -109,7 +114,7 @@
 
 /* deviceLarge: PC (가장 뒤) */
 .deviceLarge {
-  width: 680px;
+  width: 720px;
   height: auto;
   position: absolute;
   top: 0;
@@ -325,5 +330,44 @@
   .deviceSmall {
     width: 70%;
     max-width: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroTitle {
+    font-size: 24px;
+    line-height: 1.3;
+  }
+
+  .heroText {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .mobileBreak {
+    display: block;
+  }
+
+  .btnStart {
+    font-size: 14px;
+    padding: 10px 24px;
+  }
+
+  .section {
+    padding: 180px 0;
+  }
+
+  /* 각 섹션 텍스트 */
+  .sectionTitle {
+    font-size: 28px;
+  }
+
+  .sectionDesc {
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  .sectionImg {
+    width: 100%;
   }
 }

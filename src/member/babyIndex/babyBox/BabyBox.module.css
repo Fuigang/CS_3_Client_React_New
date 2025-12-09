@@ -79,9 +79,9 @@
   }
 
   .parentingImage {
-    width: 30%;
-    top: 8%;
-    left: 35%;
+    width: 34%;
+    top: 14%;
+    left: 32%;
   }
 }
 
@@ -104,9 +104,9 @@
   }
 
   .parentingImage {
-    width: 28%;
+    width: 32%;
     top: 8%;
-    left: 36%;
+    left: 34%;
   }
 }
 
@@ -138,8 +138,8 @@
   }
 
   .parentingImage {
-    width: 34%;
-    top: 6%;
+    width: 36%;
+    top: 10%;
     left: 32%;
   }
 }
@@ -171,9 +171,9 @@
   }
 
   .parentingImage {
-    width: 40%;
-    top: 10%;
-    left: 30%;
+    width: 44%;
+    top: 16%;
+    left: 28%;
   }
 }
 
@@ -201,7 +201,33 @@
 
   .parentingImage {
     width: 44%;
-    top: 16%;
+    top: 18%;
     left: 28%;
+  }
+}
+
+@media (max-width: 380px) {
+  .babyName {
+    font-size: 20px;
+  }
+
+  .dueDate {
+    font-size: 16px;
+  }
+
+  .mainContentArea {
+    border-radius: 16px;
+  }
+
+  .placeholderImage {
+    width: 36%;
+    top: 10%;
+    left: 30%;
+  }
+
+  .parentingImage {
+    width: 30%;
+    top: 10%;
+    left: 34%;
   }
 }

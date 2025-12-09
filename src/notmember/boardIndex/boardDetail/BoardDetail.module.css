@@ -415,10 +415,6 @@
 
 /* --- 1024px 이하: 모바일 레이아웃 기초 --- */
 @media (max-width: 1024px) {
-  .parent {
-    padding: 20px 0;
-  }
-
   .mainContentWrapper {
     flex-direction: column;
     gap: 16px;

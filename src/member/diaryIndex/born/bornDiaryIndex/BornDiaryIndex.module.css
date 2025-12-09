@@ -59,11 +59,6 @@
   .diaryIndexWrapper {
     padding: 20px 0;
     overflow-y: auto;
-  }
-}
-@media (max-width: 768px) {
-  .diaryIndexWrapper {
-    overflow-y: auto;
 
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -73,6 +68,20 @@
     display: none;
   }
 
+  .contentLayout {
+    flex: 1;
+    display: flex;
+    gap: 20px;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .contentLayout::-webkit-scrollbar {
+    display: none;
+  }
+}
+@media (max-width: 768px) {
   .contentLayout {
     flex-direction: column;
     gap: 15px;
@@ -108,11 +117,11 @@
     font-size: 13px;
   }
 
-  .leftPanel {
+  /* .leftPanel {
     display: none;
   }
 
   .rightContent {
     width: 100%;
-  }
+  } */
 }

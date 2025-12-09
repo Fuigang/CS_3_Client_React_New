@@ -29,7 +29,6 @@
   margin-bottom: 20px;
 }
 
-
 /* 각 영역 공통 */
 .left,
 .rigth {
@@ -63,6 +62,13 @@
   .CheckContainer {
     gap: 16px;
     overflow-y: auto;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .CheckContainer::-webkit-scrollbar {
+    display: none;
   }
 
   .CheckContainer h2 {
